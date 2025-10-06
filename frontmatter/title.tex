@@ -1,0 +1,61 @@
+\pdfbookmark{Title Page}{titlepage} % add PDF outline entry
+\thispagestyle{empty} % no number on the title page
+\begin{center}
+    \Large
+    \providecommand*{\ThesisTitleFront}{\ThesisTitle}
+    % {\Huge \bfseries \ThesisTitleFront \par}
+    {\fontsize{22pt}{26pt}\selectfont
+        \sffamily{\textbf{\ThesisTitleFront}} \par}
+    \vfill
+    {\fontsize{12pt}{14pt}\selectfont
+        \sffamily{Submitted in the partial fulfillment of the requirements of the degree of } \par} 
+    \vspace{0.5em}
+
+    {\fontsize{14pt}{16pt}\selectfont
+        \sffamily{Master of Technology} \par}
+    \vspace{0.5em}
+    {\fontsize{12pt}{14pt}\selectfont
+        \sffamily{by} \par}
+    \vspace{0.5em}
+    {\fontsize{15pt}{18pt}\selectfont
+        \sffamily{\ThesisAuthor} \par}
+    \vspace{0.5em}
+    {\fontsize{12pt}{14pt}\selectfont
+        \sffamily{(Roll No: 210010061)} \par}
+    \vspace{1em}
+    {\fontsize{12pt}{14pt}\selectfont
+        \sffamily{Supervisors:} \par}
+    \vspace{0.5em}
+    {\fontsize{12pt}{14pt}\selectfont
+        \sffamily{\Supervisor} \par}
+    {\fontsize{12pt}{14pt}\selectfont
+        \sffamily{\CoSupervisor} \par}
+    {\fontsize{12pt}{14pt}\selectfont
+        \sffamily{\CoSupervisorAlt} \par}
+    \vspace{1em}
+
+    \begin{adjustbox}{center}
+        \includegraphics[width=40mm]{iitb-logo.png}
+    \end{adjustbox}
+
+    %% if `\ThesisTitleFront` is not defined, use `\ThesisTitle`
+    
+
+    \vfill
+
+    \sffamily\Department
+
+    \vspace{1.1em}
+
+    \ifFANCY\sffamily\fi
+    INDIAN INSTITUTE OF TECHNOLOGY BOMBAY 
+    \vspace{0.5em} \YearSubmitted \\
+    \ifdef{\YearRevision}{%
+        \emph{Revised version \YearRevision} \par
+    }{}
+    \ifWIP
+        \small\ttfamily \textcolor{red}{(Draft - \today)} \par
+    \fi
+\end{center}
+
+\newpage

@@ -1,0 +1,74 @@
+%% Thesis type: bachelor, master, doctoral
+\newcommand*{\ThesisType}{masters}
+
+%% Thesis title (exactly as in the formal assignment)
+\newcommand*{\ThesisTitle}{Robust Least-Squares Optimization for Data-Driven Predictive Control}
+%% Plaintext version for PDF metadata, uncomment if needed (defauls to \ThesisTitle)
+\newcommand*{\ThesisTitlePlaintext}{TeXtured Manual \TeXturedVERSION}
+%% Thesis title (if custom formatting is needed for the title page, defauls to \ThesisTitle)
+\newcommand*{\ThesisTitleFront}{
+    \ThesisTitle\\
+    % {\Huge\color{gray}\TeXturedVERSION}
+}
+
+%% Author of the thesis
+\newcommand*{\ThesisAuthor}{\textcolor{red}{Shreyas N. B.}}
+%% Plaintext version for PDF metadata, uncomment if needed (defauls to \ThesisAuthor)
+\newcommand*{\ThesisAuthorPlaintext}{Shreyas N. B.}
+
+%% Year when the thesis is submitted
+\newcommand*{\YearSubmitted}{2025}
+%% Year of the last revision, uncomment if it is different from \YearSubmitted
+% \newcommand*{\YearRevision}{2025}
+
+%% University
+\newcommand*{\University}{Indian Institute of Technology Bombay}
+
+%% Name of the department or institute, where the work was officially assigned
+%% (according to the Organizational Structure of MFF UK in English,
+%% or a full name of a department outside MFF)
+\newcommand*{\Department}{\textcolor{red}{Center for Systems and Controls}}
+
+%% Is it a Department (katedra), or an Institute (ústav)?
+\newcommand*{\DeptType}{Institute}
+
+%% Thesis supervisor: name, surname and titles
+\newcommand*{\Supervisor}{\textcolor{red}{Prof.~Ravi Banavar}}
+%% Thesis co-supervisor: name, surname and titles (uncomment if applicable)
+\newcommand*{\CoSupervisor}{\textcolor{red}{Prof.~Cyrus Mostajeran}}
+\newcommand*{\CoSupervisorAlt}{\textcolor{red}{Prof.~Bamdev Mishra}}
+
+%% Supervisor's department/institute (again according to Organizational structure of MFF)
+\newcommand*{\SupervisorsDepartment}{\textcolor{red}{Center for Systems and Controls}}
+
+%% Study programme and specialization
+\newcommand*{\StudyProgramme}{\textcolor{red}{Inter-Disciplinary Dual Degree Programme}}
+
+%% Abstract (recommended length around 80-200 words; this is not a copy of your thesis assignment!)
+\newcommand*{\Abstract}{%
+        This thesis introduces a new framework for addressing a geometrically robust least-squares optimization problem, developed in the context of finite-time, data-driven predictive control. Traditional least-squares methods, while foundational in system identification and estimation, often struggle to maintain performance in the presence of model uncertainty or noisy data. To address this, the proposed formulation embeds robustness directly into the optimization process, rather than treating it as an external correction or regularization term. The central idea is to reinterpret the least-squares problem through a geometric lens and formulate it as a minimax problem on a product manifold, allowing for a principled treatment of uncertainty and nonlinearity.
+
+        The core formulation considers two sets of variables: one representing the decision variable of interest, and the other representing uncertainty, bounded within a geometric constraint described as a ball. This ball constraint captures possible perturbations or variations in the data, which can arise from measurement noise, modeling errors, or unmodeled system dynamics. By doing so, the method directly encodes robustness against such variations into the optimization problem itself. The resulting minimax structure can be interpreted as the controller or estimator seeking a solution that minimizes the worst-case residual error induced by the uncertainty. This formulation thus bridges ideas from robust optimization, geometric control, and estimation on manifolds.
+
+        A key theoretical contribution of this work lies in the explicit solvability of the inner maximization problem. Despite the high-level geometric structure, the maximization over the uncertainty variable admits a closed-form expression, simplifying the overall computation and enabling efficient implementation. This property distinguishes the approach from conventional robust least-squares methods that often rely on iterative or conservative approximations to handle uncertainty. By leveraging the geometry of the manifold and the symmetry of the ball constraint, the inner problem collapses into a tractable form that preserves interpretability while ensuring robustness.
+
+        When applied to data-driven predictive control, the proposed method demonstrates strong performance, particularly for linear time-invariant (LTI) systems whose dynamics are not explicitly known but can be inferred from data. Under mild assumptions of controllability and observability, the algorithm is able to generate predictive control inputs that stabilize the system and track desired trajectories effectively. The finite-time formulation ensures that the optimization remains computationally feasible for online implementation, an essential property for real-time control applications. The method's ability to integrate data-driven modeling with geometric robustness makes it particularly suitable for scenarios where accurate models are unavailable or costly to obtain, such as in aerial robotics, autonomous systems, and complex mechanical structures.
+
+        Beyond its direct application to predictive control, this thesis contributes conceptually to the intersection of geometry and optimization in control theory. By formulating the problem on a product manifold, it emphasizes the role of intrinsic structure in ensuring stability and convergence properties, while the minimax perspective naturally connects to ideas from game theory and robust estimation. Overall, the work provides both theoretical insight and practical algorithms for robust, geometry-aware control, advancing the broader goal of reliable decision-making from uncertain data.
+
+        The thesis is organized as follows: Chapter 1 introduces the problem context and motivation, Chapter 2 performs an extensive literature review of related work, Chapter 3 presents the mathematical preliminaries and necessary background, Chapter 4 details the proposed robust least-squares formulation and its theoretical properties, Chapter 5 discusses the application to data-driven predictive control, Chapter 6 provides numerical simulations and results, and finally, Chapter 7 concludes with a summary of contributions and directions for future research.
+}
+
+%% Subject (short description for PDF metadata)
+\newcommand*{\Subject}{%
+    Robust Least-Squares Optimization for Data-Driven Predictive Control
+}
+
+%% Keywords (about 3-7)
+\newcommand*{\Keywords}{%
+    \textcolor{red}{Least-Squares, Data-Driven, Predictive Control, Robust Optimization}
+}
+%% Plaintext version for PDF metadata, uncomment if needed (defauls to \Keywords)
+\newcommand*{\KeywordsPlaintext}{%
+    Least-Squares, Data-Driven, Predictive Control, Robust Optimization
+}

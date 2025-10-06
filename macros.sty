@@ -1,0 +1,404 @@
+%
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{amssymb,latexsym}
+\usepackage{cancel}
+% \usepackage[linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
+
+% \RestyleAlgo{ruled}
+%%%%%%%%%%%%%%%%%%%%%
+%
+%%% Ravi Banavar's color macros
+%
+%%%%%%%%%%%%%%%%%%%%%
+% \usepackage[colorinlistoftodos, color=blue!20]{todonotes}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\cyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\magenta}[1]{\textcolor{magenta}{#1}}
+\newcommand{\brown}[1]{\textcolor{brown}{#1}}
+\newcommand{\green}[1]{\textcolor{green}{#1}}
+\newcommand{\burgundy}[1]{\textcolor{burgundy}{#1}}
+%
+%
+% \newcommand{\mytodonote}[1]{\todo[inline,color=cyan]{#1}}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%\usecolortheme[rgb={0.55,0.0,0.4}]{structure}
+\definecolor{amaranth}{rgb}{0.9, 0.17, 0.31}
+\definecolor{burgundy}{rgb}{0.5, 0.0, 0.13}
+\definecolor{forestgreen(traditional)}{rgb}{0.0, 0.27, 0.13}
+\definecolor{ultramarine}{rgb}{0.07, 0.04, 0.56}
+\definecolor{royalfuchsia}{rgb}{0.79, 0.17, 0.57}
+%
+%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Equation and equation array like environments
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\be{\begin{equation}}
+\def\ee{\end{equation}}
+\def\bes{\begin{equation*}}
+\def\ees{\end{equation*}}
+\def\ba{\begin{array}}
+\def\ea{\end{array}}
+\def\bba{\left[ \begin{array}}
+\def\eba{\end{array} \right]}
+\def\bsa{\def\arraystretch{1.25} \left[ \begin{array}}
+\def\esa{\end{array} \right] \def\arraystretch{1}}
+\def\bea{\begin{eqnarray}}
+\def\eea{\end{eqnarray}}
+\def\beas{\begin{eqnarray*}}
+\def\eeas{\end{eqnarray*}}
+\def\beass{\begin{eqnarray**}}
+\def\eeass{\end{eqnarray**}}
+\def\bmea{\begin{meqnarray}}
+\def\emea{\end{meqnarray}}
+\def\bmeas{\begin{meqnarray*}}
+\def\emeas{\end{meqnarray*}}
+\def\bmeass{\begin{meqnarray**}}
+\def\emeass{\end{meqnarray**}}
+\def\bei{\begin{itemize}}
+\def\ei{\end{itemize}}
+\def\been{\begin{enumerate}}
+\def\een{\end{enumerate}}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   Bold fonts
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\font\german=eufm10 scaled 1200
+\font\Bbb=msbm10 scaled 1200
+\font\Bb=msbm10 scaled 800
+\font\Bbbb=msbm10 scaled 1800
+\newcommand{\CC}{\mbox{\Bbb C}}
+%\newcommand{\C}{\mbox{\Bb C}}
+\newcommand{\GG}{\mbox{\Bbb G}}
+\newcommand{\TT}{\mbox{\Bbb A}}
+\newcommand{\PP}{\mbox{\Bbb P}}
+\newcommand{\ZZ}{\mbox{\Bbb Z}}
+\newcommand{\QQ}{\mbox{\Bbb Q}}
+\newcommand{\NN}{\mbox{\Bbb N}}
+\newcommand{\FF}{\mbox{\Bbb F}}
+\newcommand{\KK}{\mbox{\Bbb K}}
+\newcommand{\HH}{\mbox{\Bbb H}}
+\newcommand{\affsp}{\TT_k^n}
+\newcommand{\ia}{\mbox{\german a}}
+\newcommand{\ib}{\mbox{\german b}}
+\newcommand{\iA}{\mbox{\german A}}
+\newcommand{\iB}{\mbox{\german B}}
+\newcommand{\col}{\operatorname{col}}
+\newcommand{\x}{{\bf x}}
+\newcommand{\qp}{{quasi-projective }}
+\newcommand{\qpv}{{quasi-projective variety }}
+%\newcommand{\qed}{\hfill $\Box$ }
+\newcommand{\btd}{\hfill $\blacktriangledown$ }
+%
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\B}{\mathbb{B}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\W}{\mathbb{W}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\Gr}{\text{Gr}}
+\newcommand{\U}{\mathbf{U}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\V}{\mathbf{V}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\Tini}{\mathbb{T}_{\textrm{ini}}}
+\newcommand{\Tfut}{\mathbb{T}_{\textrm{fut}}}
+\newcommand{\wref}{w_{\textrm{ref}}}
+\newcommand{\wini}{w_{\textrm{ini}}}
+\newcommand{\Be}{\mathfrak{B}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\Sy}{\mathcal{S}}
+
+\newcommand{\grad}{\mathrm{grad }}
+\newcommand{\Hess}{\mathrm{Hess}}
+\newcommand{\dist}{\mathrm{dist}}
+\newcommand{\Exp}{\textrm{Exp}}
+\newcommand{\Tr}{\textrm{Tr}}
+\newcommand{\Image}{\mathbf{im} \,} % image
+\newcommand{\rank}{\mathbf{rank} \,} 
+%\newcommand{\S}{\mathbb{S}}
+%
+\newcommand{\bzero}{\mathbf{0}}
+\newcommand{\inprod}[2]{\left\langle{#1}, {#2}\right\rangle}
+\newcommand{\pmat}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\newcommand{\Lp}[1]{\mathrm{L}_{#1}}
+\newcommand{\indic}[1]{\boldsymbol{1}_{#1}}
+\newcommand{\epower}[1]{\mathrm{e}^{#1}}
+\newcommand{\abs}[1]{\left\lvert{#1}\right\rvert}
+\newcommand{\norm}[1]{\left\lVert{#1}\right\rVert}
+\newcommand{\embf}[1]{\emph{\textbf{#1}}}
+\newcommand{\lieder}[2]{{\cal L}_{#1}{#2}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Some other commands
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%% 
+\def\deff{\stackrel{\triangle}{=}}
+\renewcommand{\baselinestretch}{1}
+%
+%
+\newcommand{\combox}[1]{\vspace{5 mm}\par \noindent \marginpar{\textsc{Note}}
+\framebox{\begin{minipage}[c]{0.95 \textwidth}
+\tt #1 \end{minipage}}\vspace{5 mm}\par}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Short Hand Definitions %
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Horizontal and Vertical Spaces
+\def\hsp{\hbox to 2em{}}
+\def\hem#1{\hbox to #1em{}}\def\vex#1{\vbox to #1ex{}}
+% \half
+\def\half{\frac{1}{2}}
+% \deq
+\def\deq{{}\hbox{{ }$\buildrel{\triangle}\over{=}${ }}{}}
+% \seq
+\def\seq{{}\hbox{{ }$\buildrel{\rm s}\over{=}${ }}{}}
+% \frac
+\def\frac#1#2{{{#1\vbox to .3ex{}}\over{\vbox to .3ex{}#2}}}
+% \rvec
+\def\rvec{\rowvector}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Control theoretic notation - norms/state-space
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\def\Re{\mathop{\rm Re}}
+\def\Im{\mathop{\rm Im}}
+\def\esssup{\mathop{\rm ess\,sup}}
+\def\ext{\mathop{\rm ext}}
+\def\adj{{\mathchoice{\hbox{adj}}{\hbox{adj}}}}
+\def\weinorm #1#2{\left\Vert #1 \right\Vert_{#2}}
+\def\infnorm #1{\left\Vert #1 \right\Vert_{\infty}}
+\def\twonorm #1{\left\Vert #1 \right\Vert_{2}}
+\def\ltwo{\mathop{\rm l_{2}}}
+\def\Ltwo{\mathop{\rm L_{2}}}
+\def\Lp{\mathop{\rm L_{p}}}
+\def\Lpztau{\mathop{\rm L_{p}[0,\tau]}}
+\def\lLpztau{\mathop{\rm l_{L_{p}[0,\tau]}}}
+%
+\def\c0{\mathop{\rm C^{0}}}
+\def\c1{\mathop{\rm C^{1}}}
+\def\cinf{\mathop{\rm C^{\infty}}}
+\def\linf{\mathop{\rm l_{\infty}}}
+\def\Linf{\mathop{\rm L_{\infty}}}
+\def\Hinf{\mathop{\rm H_{\infty}}}
+\def\Htwo{\mathop{\rm H_{2}}}
+\def\scR{\mathop{\rm R}}
+\def\scP{\mathop{\rm P}}
+\def\hA{\mathop{\rm \hat{A}}}
+\def\hBo{\mathop{\rm \hat{B}_{1}}}
+\def\hBt{\mathop{\rm \hat{B}_{2}}}
+\def\hCo{\mathop{\rm \hat{C}_{1}}}
+\def\hCt{\mathop{\rm \hat{C}_{2}}}
+\def\hDoo{\mathop{\rm \hat{D}_{11}}}
+\def\hDot{\mathop{\rm \hat{D}_{12}}}
+\def\hDto{\mathop{\rm \hat{D}_{21}}}
+\def\hDtt{\mathop{\rm \hat{D}_{22}}}
+\def\sample{\mathop{\rm S_{\tau}}}
+\def\hold{\mathop{\rm H_{\tau}}}
+\def\delay{\mathop{\rm D_{\tau}}}
+\def\shift{\mathop{\rm S_{j}}}
+\def\Wtau{\mathop{\rm W_{\tau}}}
+\def\Wtauinv{\mathop{\rm W^{-1}_{\tau}}}
+% \def\ssrep #1#2#3#4#5#6#7#8#9
+% {\left(
+% \begin{array}{c|c}
+% #1 &
+% \begin{array}{cc}
+% #2  & #3
+% \\
+% \end{array}
+% \\
+% \hline
+% #4 &
+% \begin{array}{cc}
+% #5  & #6
+% \\
+% \end{array}
+% \\
+% #7 &
+% \begin{array}{cc}
+% #8  & #9
+% \\
+% \end{array}
+% \\
+% %
+% \end{array}
+% \right)
+% }
+%
+\def\tfn #1#2 {\frac{#1}{#2}}
+%
+%
+%
+\def\fora{\hem{.2} \forall \hem{.2} \alpha \in \hbox{[0,1]}}
+\def\fors{\hem{.2} \forall \hem{.2} \Re(s) \ge0}
+\def\forw{\hem{.2} \forall \hem{.2} \omega}
+\def\la{{}\leftarrow{}}
+\def\ra{{}\rightarrow{}}
+\def\mw{{\rm w}}
+\def\jw{{j\omega}}
+\def\w{{\rm w}}
+\def\degrees{^\circ}
+\def\lsv{\bar{\sigma}}
+\def\x{{\times}}
+\def\til{\tilde}
+%
+\def\vec #1{\stackrel{\rightarrow}{#1}}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Theorem like environments
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%\newtheorem{example}{Example}
+% \newtheorem{remark}{Remark}
+% \newtheorem{result}{Result}
+% \newtheorem{theorem}{Theorem}
+% \newtheorem{lemma}{Lemma}[section]
+% \newtheorem{definition}{Definition}[section]
+% %\newtheorem{fact}{Fact}[section]
+% \newtheorem{property}{Property}[section]
+% \newtheorem{proposition}{Proposition}[section]
+% \newtheorem{assumption}{Assumption}
+% %\newtheorem{corollary}{Corollary}[section]
+% % \newtheorem{claim}{Claim}[section]
+% \newtheorem{questions}{Questions}[section]
+% \newtheorem{comment}{Comment}[section]
+% \newcommand{\proof}{\noindent{\bf Proof\indent}}
+% \newcommand{\proofover}{\hfill\vrule height8pt width6pt depth0pt\newline\noindent}
+\newcommand{\zh}{$\hat{z}$}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%  Colors 
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\definecolor{amaranth}{rgb}{0.9, 0.17, 0.31}
+\definecolor{burgundy}{rgb}{0.5, 0.0, 0.13}
+\definecolor{forestgreen}{rgb}{0.0, 0.27, 0.13}
+\definecolor{ultramarine}{rgb}{0.07, 0.04, 0.56}
+\definecolor{royalfuchsia}{rgb}{0.79, 0.17, 0.57}
+\definecolor{green}{rgb}{0.0, 0.5, 0.0}
+\definecolor{indiagreen}{rgb}{0.07, 0.53, 0.03}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%  Differential geometric notation
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\def\Cinf{\mathop{{\mathbf C}^{\infty}}}
+\def\C2{\mathop{{\mathbf C}^{2}}}
+\def\C1{\mathop{{\mathbf C}^{1}}}
+%
+\def\skewsym #1#2#3 {\left[ \begin{array}{ccc} 0 & -#3 & #2 \\
+#3 & 0  & -#1   \\
+-#2 &  #1 &  0 \\ \end{array} \right]}
+\def\coordvecf #1{\frac{\partial}{\partial #1}}
+%
+%%%%%%%%%%%%%%%%%%%
+%
+%.   Lie groups
+%
+%%%%%%%%%%%%%%%%%%
+\def\nbyn{\mathop{n \times n}}
+\def\glnr{\mathop{GL(n,\R)}}
+\def\SOthree{\mathbb{SO}(3)}
+\def\SOtwo{\mathbb{SO}(2)}
+\def\sothree{\mathfrak{so(3)}}
+\def\SOn{\mathbb{SO}(n)}
+\def\On{\mathbb{O}(n)}
+\def\SUn{\mathbb{SU}(n)}
+\def\SEthree{\mathbb{SE}{(3)}}
+\def\sethree{\mathfrak{se(3)}}
+\def\SEtwo{\mathbb{SE}(2)}
+\def\setwo{\mathfrak{se(2)}}
+\def\Sone{\mathbb{S}^{1}}
+\def\Stwo{\mathbb{S}^{2}}
+\def\Sn{\mathbb{S}^{n}}
+\def\riem{\mathbb{G}}
+\def\riemsharp{\mathbb{G}^{\sharp}}
+\def\riemflat{\mathbb{G}^{\flat}}
+\def\skew#1{\mathcal{S}{(#1)}}
+%
+%%%%%%
+%
+%   Lie algebras
+%
+%%%%%%
+\def\sglnr{\mathop{{\mathcal{GL}}(n,\R)}}
+\def\homega{\mathop{\hat{\omega}}}
+\def\hOmega{\mathop{\hat{\Omega}}}
+\def\hM{\mathop{\hat{M}}}
+\def\hSigma{\mathop{\hat{\Sigma}}}
+%
+%
+\def\Rta{\mathop{\Rightarrow}}
+\def\rta{\mathop{\rightarrow}}
+\def\lta{\mathop{\leftarrow}}
+\def\boldx{\mathop{{\bf x}}}
+\def\vecx{\mathop{\bba{c} x_1 \\ \vdots \\  x_n \eba}}
+\def\vecxt{\mathop{\bba{c} x_1(t) \\ \vdots \\  x_n(t) \eba}}
+\def\det{\mathop{\hbox{det}}}
+\def\trace{\mathop{\hbox{trace}}}
+%
+%%%%%%%%%%
+%
+%   Lie derivative and covariant derivative
+%
+%%%%%%%%%%%%
+\def\lieder #1#2{{\cal L}_{#1}{#2}}
+\def\covder #1#2{{\nabla}_{#1}{#2}}
+\def\christoff#1#2#3{\Gamma_{#1#2}^{#3}}
+%%%%%%%%%
+%
+%Geometric mechanics
+%
+%
+%%%%%%%%%
+\newcommand{\Ibody}{\mathbb{I}_{b}}
+\newcommand{\Irotord}{\mathbb{I}_{r}}
+\newcommand{\Irotor}{\mathbb{I}_{r}'}
+\newcommand{\Ilock}{\mathbb{I}_{lock}}
+\newcommand{\Igimbal}{\mathbb{I}_{g}}
+\newcommand{\Igimrot}{\mathbb{I}_{gr}}
+\newcommand{\Is}{\mathbb{I}_{s}}
+\newcommand{\Itot}{\mathbb{I}_{total}}
+\newcommand{\Itilde}{\tilde{\mathbb{I}}(x)}
+
+
+
+
+
+
+
+
+
+

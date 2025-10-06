@@ -1,0 +1,59 @@
+\chapter{Preliminaries} \label{ch:Preliminaries}
+
+This chapter introduces mathematical concepts and notations related to optimization theory, behavioral approach to systems theory, and data-driven predictive control that will be used throughout this thesis.
+
+\section{Riemannian Geometry} \label{sec:opt}
+
+In this section, we briefly review some fundamental concepts from Riemannian geometry and optimization on manifolds. For a more comprehensive treatment, the reader is referred to~\cite{absil,boumal2023}.
+
+\subsection{Euclidean Spaces}
+\begin{definition}[Inner Product]
+    An inner product on a real vector space $\mathcal{E}$ is a function $\langle \cdot, \cdot \rangle : \mathcal{E} \times \mathcal{E} \to \R$ that satisfies the following properties for all $u,v,w \in \mathcal{E}$ and $a,b \in \R$:
+    \begin{itemize}
+        \item Symmetry: $\langle u, v \rangle = \langle v, u \rangle$,
+        \item Linearity: $\langle au + bv, w \rangle = a\langle u, w \rangle + b\langle v, w \rangle$,
+        \item Positive-definiteness: $\langle u, u \rangle \geq 0$ and $\langle u, u \rangle = 0 \iff u = 0$.
+    \end{itemize}
+
+\end{definition}
+
+\begin{definition}[Euclidean Space]
+    A linear space $\mathcal{E}$ equipped with an inner product $\langle \cdot, \cdot \rangle$ is called a Euclidean space. An inner product induces a norm on $\mathcal{E}$ called the Euclidean norm:
+    \[
+        \lVert u \rVert = \sqrt{\langle u, u \rangle}, \quad \forall u \in \mathcal{E}.
+    \]
+\end{definition}
+The standard inner product on $\R^n$ and the associated norm are given by:
+\begin{equation}\label{eq:std_inner}
+    \langle u, v \rangle = u^\top v, \quad \lVert u \rVert_2 = \sqrt{u^\top u}, \quad \forall u,v \in \R^n.
+\end{equation}
+Similarly, the standard inner product on the space of real matrices $\R^{n \times k}$ is the Frobenius inner product, with the associated Frobenius norm:
+\begin{equation}\label{eq:fro_inner}
+    \langle A, B \rangle = \textrm{Tr}(A^\top B), \quad \lVert A \rVert_{\mathrm{F}} = \sqrt{\textrm{Tr}(A^\top A)}, \quad \forall A,B \in \R^{n \times k},
+\end{equation}
+where $\textrm{Tr}(M) = \sum_{i} M_{ii}$ denotes the trace of a matrix. We often use the following properties of the above inner product, with matrices $U, V, W, A, B$ of compatible sizes:
+\begin{equation}
+    \begin{split}
+        \langle U, V  \rangle &= \langle U^\top, V^\top \rangle \\
+        \langle A B, W \rangle &= \langle A, W B^\top \rangle = \langle B, A^\top W \rangle.
+    \end{split}
+\end{equation}
+
+\begin{definition}[Gradient]
+    Consider a smooth function $f: \mathcal{E} \to \R$, where $\mathcal{E}$ is a linear space. The (Euclidean) gradient with respect to an inner product $\langle \cdot, \cdot \rangle: \mathcal{E} \times \mathcal{E} \to \R$, denoted by $\grad{f}(x)$ is a unique element of $\mathcal{E}$ such that, for all $v \in \mathcal{E}$, 
+    \[
+        \textrm{D}f(x)[v] = \langle v, \grad{f}(x) \rangle,
+    \]
+    where $\textrm{D}f(x) : \mathcal{E} \to \R$ is the differential of $f$ at $x$, which is a linear map:
+    \[
+        \textrm{D}f(x)[v] = \lim_{t \to 0} \frac{f(x + tv) - f(x)}{t}.
+    \]
+\end{definition}
+
+\begin{definition}[Riemannian Gradient]
+    Let $f : \mathcal{M} \to \R$ be smooth on a Riemannian manifold $\mathcal{M}$. The Riemannian gradient of $f$ is the vector field $\textrm{grad}f$ on $\mathcal{M}$ uniquely defined by the following identities:
+    \[
+        \forall (x,v) \in \textrm{T}\mathcal{M}, \quad \textrm{D}f(x)[v] = \langle v, \textrm{grad}f(x) \rangle_x,
+    \]
+    where 
+\end{definition}

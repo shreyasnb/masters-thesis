@@ -1,0 +1,37 @@
+\chapter{Introduction}~\label{ch:Introduction}
+
+The objective of this thesis is to study the application of robust least-squares optimization in the context of data-driven predictive control. The fundamental idea lies in the behavioral approach to systems theory, which allows us to represent a dynamical system purely based on its observed input-output data, without requiring an explicit parametric model. This approach is particularly useful in scenarios where the underlying system dynamics are complex or unknown. 
+
+Least-squares optimization is a classical problem which has been utilized across many domains in science and engineering over the past few centuries. The earliest documented usage of the problem can be traced back to Legendre (1805)~\cite{Legendre1805}, where it was described as an algebraic procedure for fitting linear equations to data. Legendre demonstrated the new method by analyzing the same data as Laplace for the shape of the Earth. On the other hand, Gauss (1809)~\cite{Gauss1809} went beyond Legendre and succeeded in connecting the method of least-squares with the principles of probability. The least-squares technique soon became an indispensable tool in astronomy, geodesy and laid the foundation of many core concepts in modern engineering problems.
+
+\section{Problem Overview}
+
+The least-squares problem is most commonly seen in the form shown below:
+\begin{equation}
+    \min_{x \in \R^n} \lVert A x - b \rVert_2^2,
+\end{equation}
+where $A \in \R^{m \times n}$ is a matrix of coefficients, $b \in \R^m$ is a vector of observations, and $x \in \R^n$ is the vector of unknowns to be determined. Thus, by minimizing the residual $\Delta b = A x - b$, it determines a solution that closely matches b in the Euclidean 2-norm. As the domain of applied statistics progressed, the total least squares problem~\cite{golub1980} was studied, which considered perturbations in both dependent and independent variables, i.e., ($\Delta A, \Delta b$). The optimal solutions may be sensitive to perturbations in the data ($A, b$). One way to mitigate this is to consider the robust least squares problem:
+\begin{equation}
+    \min_{x \in \R^n} \max_{A \in \mathbb{B}^{\textrm{F}}_{\rho}(\hat{A})} \lVert Ax - b \rVert_2^2,
+\end{equation}
+where $\mathbb{B}_{\rho}^{\mathrm{F}}(\hat{A}) = \{ A \in \R^{m \times n} : \lVert A - \hat{A} \rVert_2 \leq \rho \}$ is a ball centered around $\hat{A}$ with radius $\rho$, endowed with the Frobenius norm. 
+
+Building on these ideas, alternative perturbation models have been explored, yielding different robust versions of the least-squares problem. For instance, El Ghaoui and Lebret (1997)~\cite{ghaoui97} considered the robust least squares problem
+\begin{equation}
+    \min_{x \in \R^n} \max_{[A \ b] \in \B^{\textrm{F}}_{\rho}([\hat{A} \ \hat{b}])} \lVert Ax - b \rVert_2^2.
+\end{equation}
+This approach is motivated by scenarios where the exact data $(A,b)$ are unknown, but belong to a family of matrices $(\hat{A} + \Delta A , \hat{b} + \Delta b)$ and the residual $[\Delta A \ \Delta b]$ lies in a norm-bounded matrix ball.
+
+In this thesis, we introduce a robust optimization framework that accounts for the geometric nature of perturbations found in diverse instances of the problem. Specifically, we consider the optimization problem,
+\begin{equation}
+    \min_{x \in \R^n} \max_{\mathcal{S} \in \B^d_{\rho}(\hat{\mathcal{S}})} \lVert P_{\mathcal{S}} x - b \rVert_2^2,
+\end{equation}
+where $P_{\mathcal{S}}$ is the orthogonal projection onto the $k$-dimensional subspace $\mathcal{S}$ of $\R^n$, and $\mathbb{B}^d_{\rho}(\hat{\mathcal{S}})$ is a ball centered at $\hat{\mathcal{S}}$ with radius $\rho$ defined by the metric $d$ on the \textit{Grassmannian} $\Gr(k,n)$, which is  the set of all $k$-dimensional subspaces in $\R^n$ endowed with the structure of a smooth Riemannian manifold. This approach is motivated by a diverse range of applications where the linear model $A$ is a matrix representation of a subspace subject to bounded perturbations (due to uncertainty or approximations errors), quantified naturally in terms of distances between subspaces.
+
+\section{Data-Driven Predictive Control}
+
+The availability of large datasets coupled with unprecedented storage and computational power has recently reignited interest in direct data-driven control methods, which aim to infer optimal decisions directly from measured data (bypassing system identification). At the heart of this emerging trend lies the behavioral approach to system theory (Willems, 2007~\cite{willems2007}) and a seminal result by Willems and his collaborators \cite{willems2005}, commonly referred to as the \textit{fundamental lemma}. The lemma establishes that finite-horizon behaviors of Linear Time-Invariant (LTI) systems can be represented as images of raw data matrices. 
+
+As a result, various data-driven modeling, estimation, filtering, and control problems can be formulated as weighted or constrained least squares problems (Markovsky and D\"orfler, 2021~\cite{markovsky2021}). Moreover, being finite-dimensional subspaces, finite-horizon LTI behaviors can be identified with points on the Grassmannian $\Gr(k, n)$ and uncertainty can be naturally quantified using Grassmannian (subspace) metrics. This approach has demonstrated its effectiveness in data-driven mode recognition and control applications and shows promise to open new avenues in adaptive control (Padoan et al., 2022~\cite{padoan2022}).
+
+In summary, the main focus of this thesis is to explore the robust least-squares problem with subspace uncertainty and its application in data-driven predictive control via behavioral systems theory. We investigate the theoretical foundations of this approach, develop efficient algorithms for solving the robust optimization problem, and demonstrate its effectiveness through numerical simulations and real-world applications. The ultimate goal is to provide a geometric approach to robust and reliable framework for data-driven control that can handle uncertainties in the system dynamics and improve the performance of control systems in practice.
