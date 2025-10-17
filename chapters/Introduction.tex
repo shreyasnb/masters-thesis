@@ -5,6 +5,7 @@ The objective of this thesis is to study the application of robust least-squares
 Least-squares optimization is a classical problem which has been utilized across many domains in science and engineering over the past few centuries. The earliest documented usage of the problem can be traced back to Legendre (1805)~\cite{Legendre1805}, where it was described as an algebraic procedure for fitting linear equations to data. Legendre demonstrated the new method by analyzing the same data as Laplace for the shape of the Earth. On the other hand, Gauss (1809)~\cite{Gauss1809} went beyond Legendre and succeeded in connecting the method of least-squares with the principles of probability. The least-squares technique soon became an indispensable tool in astronomy, geodesy and laid the foundation of many core concepts in modern engineering problems.
 
 \section{Problem Overview}
+\subsection{Robust Least-Squares}
 
 The least-squares problem is most commonly seen in the form shown below:
 \begin{equation}
@@ -28,10 +29,36 @@ In this thesis, we introduce a robust optimization framework that accounts for t
 \end{equation}
 where $P_{\mathcal{S}}$ is the orthogonal projection onto the $k$-dimensional subspace $\mathcal{S}$ of $\R^n$, and $\mathbb{B}^d_{\rho}(\hat{\mathcal{S}})$ is a ball centered at $\hat{\mathcal{S}}$ with radius $\rho$ defined by the metric $d$ on the \textit{Grassmannian} $\Gr(k,n)$, which is  the set of all $k$-dimensional subspaces in $\R^n$ endowed with the structure of a smooth Riemannian manifold. This approach is motivated by a diverse range of applications where the linear model $A$ is a matrix representation of a subspace subject to bounded perturbations (due to uncertainty or approximations errors), quantified naturally in terms of distances between subspaces.
 
-\section{Data-Driven Predictive Control}
+\subsection{Data-Driven Predictive Control}
 
 The availability of large datasets coupled with unprecedented storage and computational power has recently reignited interest in direct data-driven control methods, which aim to infer optimal decisions directly from measured data (bypassing system identification). At the heart of this emerging trend lies the behavioral approach to system theory (Willems, 2007~\cite{willems2007}) and a seminal result by Willems and his collaborators \cite{willems2005}, commonly referred to as the \textit{fundamental lemma}. The lemma establishes that finite-horizon behaviors of Linear Time-Invariant (LTI) systems can be represented as images of raw data matrices. 
+
+The proposed idea behind data-driven predictive control via the geometric approach is posed as:
+\begin{enumerate}
+    \item Collect a single input-output trajectory of the system, denoted by $\{u_k, y_k\}_{k=0}^{N-1}$, where $u_k \in \R^m$ and $y_k \in \R^p$ are the input and output at time step $k$, respectively. Store trajectories as $w_k = [u_k^\top \ y_k^\top]^\top \in \R^{q}$ where $q = m + p$.
+    \item Construct the Hankel matrix of depth $L$ from the collected data:
+    \[
+        \mathcal{H}_L(w) = \begin{bmatrix}
+            w_0 & w_1 & w_2 & \cdots & w_{N-L} \\
+            w_1 & w_2 & w_3 & \cdots & w_{N-L+1} \\
+            \vdots & \vdots & \vdots & \ddots & \vdots \\
+            w_{L-1} & w_L & w_{L+1} & \cdots & w_{N-1}
+        \end{bmatrix} \in \R^{qL \times (N-L+1)}.
+    \]
+    \item According to the fundamental lemma, if the input sequence $\{u_k\}$ is persistently exciting of order $L + n$ (where $n$ is the order of the system), then any trajectory of length $L$ can be expressed as a linear combination of the columns of $\mathcal{H}_L(w)$. In other words, the behavior $\mathfrak{B}_L$ of the system over a horizon $L$ is given by:
+    \[
+        \mathfrak{B}_L = \textrm{im}(\mathcal{H}_L(w)) 
+    \]
+    We identify $\mathfrak{B}_L$ as a $k$-dimensional subspace of $\R^{qL}$, where $k \leq qL$ is the rank of $\mathcal{H}_L(w)$. Thus, it is an element of the Grassmannian $\Gr(k, qL)$, denoted as $\mathcal{S} \equiv \mathfrak{B}_L$.
+    \item At each time step $t$, solve a constrained least-squares problem to find the optimal trajectory that minimizes the cost function while satisfying the system's behavior. The optimization problem can be formulated as:
+    \[
+        \min_{x \in \R^{qL}} \max_{\mathcal{S} \in \B^d_{\rho}(\hat{\mathcal{S}})} \lVert P_{\mathcal{S}} x - b \rVert_2^2 , \quad \textrm{s.t.} \quad P_{\mathcal{S}}x \in \mathfrak{B}_L
+    \]
+   
+\end{enumerate}
 
 As a result, various data-driven modeling, estimation, filtering, and control problems can be formulated as weighted or constrained least squares problems (Markovsky and D\"orfler, 2021~\cite{markovsky2021}). Moreover, being finite-dimensional subspaces, finite-horizon LTI behaviors can be identified with points on the Grassmannian $\Gr(k, n)$ and uncertainty can be naturally quantified using Grassmannian (subspace) metrics. This approach has demonstrated its effectiveness in data-driven mode recognition and control applications and shows promise to open new avenues in adaptive control (Padoan et al., 2022~\cite{padoan2022}).
 
 In summary, the main focus of this thesis is to explore the robust least-squares problem with subspace uncertainty and its application in data-driven predictive control via behavioral systems theory. We investigate the theoretical foundations of this approach, develop efficient algorithms for solving the robust optimization problem, and demonstrate its effectiveness through numerical simulations and real-world applications. The ultimate goal is to provide a geometric approach to robust and reliable framework for data-driven control that can handle uncertainties in the system dynamics and improve the performance of control systems in practice.
+
+
