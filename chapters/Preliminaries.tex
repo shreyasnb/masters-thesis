@@ -2,7 +2,7 @@
 
 This chapter introduces mathematical concepts and notations related to optimization theory, behavioral approach to systems theory, and data-driven predictive control that will be used throughout this thesis.
 
-\section{Riemannian Geometry} \label{sec:opt}
+\section{Geometry} \label{sec:opt}
 
 In this section, we briefly review some fundamental concepts from Riemannian geometry and optimization on manifolds. For a more comprehensive treatment, the reader is referred to~\cite{absil,boumal2023}.
 
@@ -39,20 +39,86 @@ where $\textrm{Tr}(M) = \sum_{i} M_{ii}$ denotes the trace of a matrix. We often
     \end{split}
 \end{equation}
 
-\begin{definition}[Gradient]
-    Consider a smooth function $f: \mathcal{E} \to \R$, where $\mathcal{E}$ is a linear space. The (Euclidean) gradient with respect to an inner product $\langle \cdot, \cdot \rangle: \mathcal{E} \times \mathcal{E} \to \R$, denoted by $\grad{f}(x)$ is a unique element of $\mathcal{E}$ such that, for all $v \in \mathcal{E}$, 
+\begin{definition}[Differential]
+    Let $U,V$ be two open sets in two Euclidean spaces $\mathcal{E}_1$ and $\mathcal{E}_2$, respectively. A map $F : U \to V$ is said to be \textit{smooth} if it is infinitely differentiable (class $\mathcal{C}^{\infty}$) on its domain. 
+
+    Also, $F$ is said to be \textit{differentiable} at a point $x \in U$ if there exists a neighborhood $U'$of $x$ such that $F \mid_{U'}$ is smooth. Thus, if $F : U \to V$ is smooth at $x$, then its \textit{differential} at $x$, is the linear map $\textrm{D}F(x): \mathcal{E}_1 \to \mathcal{E}_2$ defined as:
     \[
-        \textrm{D}f(x)[v] = \langle v, \grad{f}(x) \rangle,
+        \textrm{D}F(x)[v] = \frac{d}{dt} F(x+tv) \Big|_{t = 0} =  \lim_{t \to 0} \frac{F(x + tv) - F(x)}{t}
     \]
-    where $\textrm{D}f(x) : \mathcal{E} \to \R$ is the differential of $f$ at $x$, which is a linear map:
+\end{definition}
+
+\begin{definition}[Euclidean Gradient]
+    Consider a smooth function $f: \mathcal{E} \to \R$, where $\mathcal{E}$ is a linear space. The Euclidean gradient with respect to an inner product $\langle \cdot, \cdot \rangle: \mathcal{E} \times \mathcal{E} \to \R$, denoted by $\grad{f}(x)$ is a unique element of $\mathcal{E}$ such that, for all $v \in \mathcal{E}$, 
     \[
-        \textrm{D}f(x)[v] = \lim_{t \to 0} \frac{f(x + tv) - f(x)}{t}.
+        \langle v, \grad{f}(x) \rangle = \textrm{D}f(x)[v],\quad x,v \in \mathcal{E},
+    \]
+    where $\textrm{D}f(x) : \mathcal{E} \to \R$ is the differential of $f$ at $x$.
+\end{definition}
+
+\begin{definition}[Euclidean Hessian]
+    The Euclidean Hessian of a smooth function $f: \mathcal{E} \to \R$ is the linear map $\textrm{Hess}f(x) : \mathcal{E} \to \mathcal{E}$ defined as:
+    \[
+        \textrm{Hess}f(x)[v] = \textrm{D}(\grad{f})(x)[v] = \frac{d}{dt} \grad{f}(x + tv) \Big|_{t = 0}, \quad \forall x,v \in \mathcal{E}.
+    \]
+\end{definition}
+
+\begin{definition}[Embedded Submanifold]
+    Let $\mathcal{E}$ be a linear space of dimension $k$. A non-empty subset $\M$ of $\mathcal{E}$ is a (smooth) \textit{embedded submanifold} of $\mathcal{E}$ of dimension $n$ if either of the following conditions hold:
+    \begin{enumerate}
+        \item $n=k$ and $\M$ is open in $\mathcal{E}$, also called an open submanifold; or 
+        \item $n=k-q$ for some $q \geq 1$ and, for each $x \in \M$, there exists an open neighborhood $U$ of $x$ in $\mathcal{E}$ and a smooth map $h : U \to \R^q$ such that:
+        \begin{enumerate}[(a)]
+            \item If $y$ is in $U$, then $h(y) = 0$ if and only if $y \in \M$; and
+            \item \textrm{rank} $\textrm{D}h(x) = q$.
+        \end{enumerate}
+        Such a function $h$ is called a \textit{local defining function} for $\M$ at $x$.
+    \end{enumerate}
+    
+\end{definition}
+
+\begin{definition}[Tangent Space]
+   Let $\M$ be a subset of $\mathcal{E}$. For all $x \in \M$, the \textit{tangent space} to $\M$ at $x$, denoted by $T_x \M$, is defined as the set of all vectors that are tangents at $x$ to smooth curves on $\M$, i.e.,
+   \[
+        T_x \M = \{ \gamma'(0) \mid \gamma : (-\epsilon, \epsilon) \to \M \textrm{ is a smooth curve with } \gamma(0) = x \}.
+   \]
+\end{definition}
+
+\begin{definition}[Tangent Bundle]
+    The \textit{tangent bundle} of a manifold $\M$ is the set of all tangent spaces over all points in $\M$:
+    \[
+        T\M = \{ (x,v) \mid x \in \M, v \in T_x \M \}.
     \]
 \end{definition}
 
 \subsection{Riemannian Geometry}
+\begin{definition}[Differential]
+    The differential of $F: \M \to \M'$ at the point $x \in \M$ is the linear map $DF(x) : T_x \M \to T_{F(x)} \M'$ defined as:
+    \[
+        \textrm{D}F(x)[v] = \frac{d}{dt} F(\gamma(t)) \Big|_{t = 0} = (F \circ \gamma)'(0),
+    \]
+    
+    Let $\M$ and $\M'$ be two embedded submanifolds of two Euclidean spaces $\mathcal{E}$ and $\mathcal{E}'$, respectively. Then, the map $F : \M \to \M'$ admits a smooth extension $\bar{F} : U \to \mathcal{E}'$ defined on an open neighborhood $U$ of $\M$ in $\mathcal{E}$. Thus, for all $x \in \M$ and $v \in T_x \M$, the differential of $F$ at $x$ can be computed as:
+    \[
+        \textrm{D}F(x) = \textrm{D}\bar{F}(x) \mid_{T_x \M}.
+    \]
+\end{definition}
+
+\begin{definition}[Inner Product]
+    An inner product on the tangent space $T_x \M$ is a bilinear, symmetric, positive-definite map $\langle \cdot, \cdot \rangle_x : T_x \M \times T_x \M \to \R$. It induces a norm for tangent vectors: $\lVert u \rVert_x = \sqrt{\langle u, u \rangle_x}$.
+\end{definition}
+
 \begin{definition}[Riemannian Metric]
     A metric $\langle \cdot, \cdot \rangle$ on $T_x \M$ is a Riemannian metric if it varies smoothly with $x$, in the sense that for all smooth vector fields $V,W$ on $\M$, the function $x \mapsto \langle V(x), W(x) \rangle_x$ is smooth.
+\end{definition}
+
+\begin{definition}[Riemannian Submanifold]
+    An embedded submanifold $\M$ of a Euclidean space $\mathcal{E}$ is a Riemannian submanifold if it is endowed with the Riemannian metric induced by the inner product of $\mathcal{E}$, i.e., for all $x \in \M$ and $u,v \in T_x \M$,
+    \[
+        \langle u, v \rangle_x = \langle u, v \rangle,
+    \]
+    where the right-hand side is the inner product in $\mathcal{E}$.
+    
 \end{definition}
 
 \begin{definition}[Riemannian Gradient]
@@ -60,5 +126,150 @@ where $\textrm{Tr}(M) = \sum_{i} M_{ii}$ denotes the trace of a matrix. We often
     \[
         \forall (x,v) \in \textrm{T}\mathcal{M}, \quad \textrm{D}f(x)[v] = \langle v, \textrm{grad}f(x) \rangle_x,
     \]
-    where 
+    where $\textrm{D}f(x) : T_x \mathcal{M} \to \R$ is the differential of $f$ at $x$, and $\langle \cdot, \cdot \rangle_x$ is the Riemannian metric on $T_x \mathcal{M}$.
+\end{definition}
+
+\begin{definition}[Projection]
+    Let $\M$ be an embedded submanifold of a Euclidean space $\mathcal{E}$ equipped with a Euclidean metric $\langle \cdot, \cdot \rangle$. The \textit{orthogonal projection} onto the tangent space $T_x \M$ at a point $x \in \M$ is the linear map $P^{\perp}_x : \mathcal{E} \to T_x \M$ which satisfies the following properties:
+    \begin{enumerate}
+        \item \textit{Range}: $\textrm{im}(P^{\perp}_x) = T_x \M$;
+        \item \textit{Projector}: $P^{\perp}_x \circ P^{\perp}_x = P^{\perp}_x$;
+        \item \textit{Orthogonal}: $\langle u - P^{\perp}_x(u), v \rangle = 0$, for all $u \in \mathcal{E}$ and $v \in T_x \M$.
+    \end{enumerate}
+    
+\end{definition}
+
+\begin{proposition}\label{prop:riem_grad}
+    Let $\M$ be an embedded submanifold of a Euclidean space $\mathcal{E}$ equipped with a Euclidean metric $\langle \cdot, \cdot \rangle$. For a smooth function $f : \M \to \R$, the Riemannian gradient at a point $x \in \M$ is given by:
+    \[
+        \textrm{grad}f(x) = P^{\perp}_x(\grad{\bar{f}}(x)),
+    \]
+    where $\bar{f}$ is a smooth extension of $f$ to an open neighborhood of $\M$ in $\mathcal{E}$, and $\grad{\bar{f}}(x)$ is the Euclidean gradient of $\bar{f}$ at $x$.
+\end{proposition}
+
+\subsection{Grassmannians}
+The Grassmannian $\Gr(k,n)$ is the set of all $k$-dimensional subspaces of $\R^n$. It can be endowed with the structure of a smooth Riemannian manifold of dimension $k(n-k)$. Each point $\mathcal{S} \in \Gr(k,n)$ can be represented by an orthogonal matrix $Y \in \R^{n \times k}$ such that $Y^\top Y = I_k$.
+
+The projection operator onto the subspace $\mathcal{S}$ is given by $P_{\mathcal{S}} = Y Y^\top$ and the orthogonal complement projection is $P_{\mathcal{S}}^{\perp} = I_n - Y Y^\top$.
+
+\begin{figure}[h]
+    \centering
+\begin{tikzpicture}[x={(1cm,0cm)}, y={(0.5cm,0.5cm)}, z={(0cm,1cm)}, scale=1, >=Stealth]
+
+% Draw the subspace plane
+\fill[blue!20, opacity=0.6] (0,-0.5,0) -- (3,-0.5,0) -- (3,1.5,0) -- (0,1.5,0) -- cycle;
+% \draw[thick] (0,0,0) -- (3,0,0) -- (3,3,0) -- (0,3,0) -- cycle;
+\node at (2.5,1,0) {$\mathcal{S}_{\hat{\mathbf{y}}}$};
+
+% Draw coordinate axes
+% \draw[->] (0,0,0) -- (4,0,0) node[below] {$x_1$};
+% \draw[->] (0,0,0) -- (0,4,0) node[left] {$x_2$};
+% \draw[->] (0,0,0) -- (0,0,4) node[left] {$x_3$};
+
+% Draw vector x
+\draw[->, thick, blue] (0,0,0) -- (2,1,3) node[midway, above left] {$\mathbf{x}$};
+
+% Draw projection w = P_S x
+\draw[->, thick, red] (0,0,0) -- (2,1,0) node[midway, below right ] {$\mathbf{w} = P_{\mathcal{S}_{\hat{\mathbf{y}}}}\mathbf{x}$};
+
+% Draw perpendicular from x to w
+\draw[dashed, purple] (2,1,3) -- (2,1,0) node[midway, right] {$\mathbf{x} - \mathbf{w} = P_{\mathcal{S}_{\hat{y}}}^\perp x $};
+
+% Draw right angle indicator at w
+\draw[thick, purple] (2,1,0.15) -- (1.85,1,0.12);
+\draw[thick, purple] (1.85, 1,0.12) -- (1.85,1.01,-0.05);
+
+% Origin label
+% \node at (0,0,0) [below left] {$\mathbf{0}$};
+
+\end{tikzpicture}
+\caption{Depiction of the orthogonal projection of a vector onto a subspace $\mathcal{S}_{\hat{\mathbf{y}}}$.}
+\end{figure}
+
+\begin{definition}[Chordal Distance]
+    The chordal distance between two subspaces $\mathcal{S}_1, \mathcal{S}_2 \in \Gr(k,n)$ is defined as:
+    \[
+        d_{2}(\mathcal{S}_1, \mathcal{S}_2) = \sqrt{\mathrm{Tr}\left(P_{\mathcal{S}_1}^\perp P_{\mathcal{S}_2}\right)} = \frac{1}{\sqrt{2}}\lVert P_{\mathcal{S}_1} - P_{\mathcal{S}_2} \rVert_{\mathrm{F}} = \sqrt{\sum_{i=1}^{k} \sin^2(\theta_i)},
+    \]
+    where $\lVert \cdot \rVert_{\mathrm{F}}$ is the Frobenius norm, and $0 \leq \theta_1 \leq \cdots \leq \theta_k \leq \pi/2$ are the principal angles between $\mathcal{S}_1$ and $\mathcal{S}_2$.
+    
+\end{definition}
+
+\begin{definition}[Gap Distance]
+    The gap distance between two subspaces $\mathcal{S}_1, \mathcal{S}_2 \in \Gr(k,n)$ is defined as:
+    \[
+        d_{\infty}(\mathcal{S}_1, \mathcal{S}_2) = \lVert P_{\mathcal{S}_1} - P_{\mathcal{S}_2} \rVert_{2} = \sin(\theta_k),
+    \]
+    where $\lVert \cdot \rVert_{2}$ is the spectral norm, and $\theta_k$ is the largest principal angle between $\mathcal{S}_1$ and $\mathcal{S}_2$.
+    
+\end{definition}
+
+\newpage
+\section{Optimization}
+
+\begin{definition}[Convexity]
+    Let $\X$ be a real vector space. Let $f: \X \to \R$ be a function, such that $x \mapsto f(x)$. Then, $f$ is convex over $\X$, for all $x \in \X$, if and only if
+    \[
+        f(t x_1 + (1-t)x_2) \leq t f(x_1) + (1-t)f(x_2), 
+    \]
+    for all $0\leq t \leq 1$, and all $x_1, x_2 \in \X$.
+\end{definition}
+\begin{definition}[Constrained Optimization]
+    For the constrained minimization problem,
+    \begin{equation}\label{eq:cons-opt}
+        \min_{x \in \R^n} f(x) \quad \textrm{subject to} \quad \begin{cases}
+            c_i(x) = 0, \ i \in \mathcal{E}, \\
+            c_i(x) \leq 0, \ i \in \mathcal{I},
+        \end{cases}
+    \end{equation}
+\end{definition}
+where $f$ and the functions $c_i$ are all smooth, real-valued functions on a subset of $\R^n$, and $\mathcal{I}$ and $\mathcal{E}$ are two finite sets of indices. We call $f$ the \textit{objective function}, while $c_i$, $i \in \mathcal{E}$ are the equality constraints and $c_i$ , $i \in \mathcal{I}$ are the inequality constraints. We define the \textit{feasible set} $\Omega$ to be the set of points $x$ that satisfy the constraints; that is,
+\[
+    \Omega = \{x \mid c_i(x) = 0, i \in \mathcal{E}; c_i(x) \leq 0, i \in \mathcal{I} \},
+\]
+so that we rewrite the problem more compactly as,
+\[
+    \min_{x \in \Omega} f(x).
+\]
+\begin{definition}[Lagrangian function]
+    We define the \textit{Lagrangian} function for \eqref{eq:cons-opt} as 
+    \[
+        \mathcal{L}(x, \lambda) = f(x) + \sum_{i \in \mathcal{I} \cap \mathcal{E}} \lambda_i c_i(x) 
+    \]
+\end{definition}
+\begin{definition}[First-Order Optimality Conditions]
+    Let \\ $x^*$ be a local solution of \eqref{eq:cons-opt}, that the functions $f$ and $c_i$ in \eqref{eq:cons-opt} are continuously differentiable. Then there exists a Lagrange multiplier $\lambda^*$, with components $\lambda_i^*, i \in \mathcal{E} \cap \mathcal{I}$, such that the following conditions are satisfied at $(x^*, \lambda^*)$,
+    \begin{subequations} \label{eq:kkt}
+        \begin{alignat}{4}
+            \nabla_x \mathcal{L}(x^*,\lambda^*) &= 0,  \\
+            c_i(x^*) &= 0, \quad i \in \mathcal{E}, \\
+            c_i(x^*) &\leq 0, \quad i \in \mathcal{I}, \\
+            \lambda^* & \geq 0, \quad i \in \mathcal{I}, \\
+            \lambda_i^* c_i(x^*) &= 0, \quad i \in \mathcal{E} \cap \mathcal{I}. \label{eq:kkt-comp}
+        \end{alignat}
+    \end{subequations}
+These conditions \eqref{eq:kkt} are often known as the \textit{KKT (Karush-Kuhn-Tucker) conditions}. The conditions \eqref{eq:kkt-comp} are \textit{complementarity slackness conditions}; they imply that either constraint $i$ is active or $\lambda^*_i = 0$, or possibly both.
+\end{definition}
+
+\begin{definition}[Min-Max Optimization]
+In general, the min-max problems (see \cite{han2023}, \cite{han2024}) on Riemannian manifolds that we focus on, are of the kind
+\[
+\min_{x \in \mathcal{M}_x} \max_{y \in \mathcal{M}_y} f(x,y),
+\]
+where $f$ is atleast $\mathcal{C}^2$ and $\M_x,\M_y$ are the Riemannian manifolds containing $x,y$ respectively. Without loss of generality, we assume that minimization takes place first, followed by maximization (cannot be interchanged). These problems are termed \textit{min-max optimization}, whereas the candidate solution points are termed \textit{minimax points}. 
+
+\end{definition}
+\begin{definition}[Global Minimax point]
+\label{def:global-minimax}
+    Let $\M_x, \M_y$ be two smooth Riemannian manifolds. Consider two subsets $\X, \Y$ such that $\X \times \Y \subseteq \M_x \times \M_y$. Let $f: \X \times \Y \to \R$, be a function such that $(x,y) \mapsto f(x,y)$. The point $(x^*, y^*)$ is called a global minimax point if for any $(x,y) \in \X \times \Y$, it satisfies:
+    \[
+    f(x^*,y) \leq f(x^*, y^*) \leq \max_{y' \in \Y} f(x, y').
+    \]
+\end{definition}
+\begin{definition}[Local Minimax point]
+\label{def:local-minimax}
+A point $(x^*, y^*)$ is a local minimax point of $f: \X \times \Y \to \R$ if there exists some $\delta_0 > 0$, and a function $h$ such that $\lim_{\delta \to 0} h(\delta) = 0 \ \forall \ \delta \in (0, \delta_0]$ and for every $(x,y) \in \X \times \Y$ satisfying $d(x,x^*) \leq \delta$ and $d(y,y^*) \leq \delta$ such that
+\[
+f(x^*, y) \leq f(x^*, y^*) \leq \max_{y': d(y,y') \leq h(\delta)} f(x,y').
+\]
 \end{definition}
