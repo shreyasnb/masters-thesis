@@ -56,13 +56,25 @@
     frontmatter/information,
     chapters/Introduction,
     chapters/QuickSummary,
-    chapters/LiteratureSurvey,
+    % chapters/LiteratureSurvey,
     chapters/Preliminaries,
-    chapters/Usage,
-    chapters/Features,
-    chapters/Tips,
-    chapters/Summary,
-    chapters/Appendix,
+    chapters/Behavior,
+    chapters/PredictiveControl,
+    % chapters/Usage,
+    % chapters/Features,
+    % chapters/Tips,
+    % chapters/Summary,
+    % chapters/Appendix,
+}
+
+% Ensure .aux exists (create an empty file on first run) to avoid:
+%   I can't find file `thesis.aux'.
+% which can stop LaTeX on the first compilation pass.
+\IfFileExists{\jobname.aux}{}{%
+  \newwrite\auxfile
+  \immediate\openout\auxfile=\jobname.aux
+  \immediate\write\auxfile{}%
+  \immediate\closeout\auxfile
 }
 
 \begin{document}
@@ -77,8 +89,10 @@
 \mainmatter
 \include{chapters/Introduction}
 % \include{chapters/QuickSummary}
-\include{chapters/LiteratureSurvey}
+% \include{chapters/LiteratureSurvey}
 \include{chapters/Preliminaries}
+\include{chapters/Behavior}
+\include{chapters/PredictiveControl}
 \include{chapters/Usage}
 \include{chapters/Features}
 \include{chapters/Tips}
