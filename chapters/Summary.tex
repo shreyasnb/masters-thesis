@@ -1,6 +1,24 @@
 %% NOTE: uncomment following line if you use parts in your document
 % \addtocontents{toc}{\vspace{2ex}}  % Add extra space after the last part in TOC
 
-\chapternotnumbered{Summary and Outlook}
+\chapternotnumbered{Summary and Future Work}
 
-Summary and Outlook.
+\label{ch:Summary}
+\vspace{2ex}
+This thesis has explored the application of robust least-squares optimization in the context of data-driven predictive control, leveraging the behavioral approach to systems theory. By representing dynamical systems based on observed input-output data, we have developed a geometric framework that effectively handles uncertainties in system dynamics.
+
+The key contributions of this work include:
+\begin{enumerate}
+    \item Development of a robust least-squares optimization framework that accounts for subspace uncertainty, enabling more reliable control strategies in the presence of data perturbations.
+    \item Integration of the behavioral approach to system theory, allowing for a flexible representation of dynamical systems without explicit parametric models.
+    \item Formulation of data-driven predictive control problems as constrained least-squares problems, facilitating the design of control strategies directly from observed data.
+    \item Demonstration of the effectiveness of the proposed framework through numerical simulations.
+\end{enumerate}
+
+Future research directions include:
+\begin{itemize}
+    \item Extension of the robust least-squares framework to accommodate linear time-varying (LTV) systems and nonlinear systems.
+    \item System-theoretic interpretation of the worst-case subspace $Y^\star$ in the context of robust or $H_\infty$ control.
+    \item Enhancing the computational efficiency of the proposed algorithms using advanced optimization techniques like adaptive time-stepping, etc.
+    \item Experimental validation of the proposed framework on real-world systems to assess its practical applicability and performance.
+\end{itemize}

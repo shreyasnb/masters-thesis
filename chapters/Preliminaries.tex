@@ -189,7 +189,7 @@ The projection operator onto the subspace $\mathcal{S}$ is given by $P_{\mathcal
 \caption{Depiction of the orthogonal projection of a vector onto a subspace $\mathcal{S}_{\hat{\mathbf{y}}}$.}
 \end{figure}
 
-\begin{definition}[Chordal Distance]
+\begin{definition}[Chordal Distance]\label{defn:chordal}
     The chordal distance between two subspaces $\mathcal{S}_1, \mathcal{S}_2 \in \Gr(k,n)$ is defined as:
     \[
         d_{2}(\mathcal{S}_1, \mathcal{S}_2) = \sqrt{\mathrm{Tr}\left(P_{\mathcal{S}_1}^\perp P_{\mathcal{S}_2}\right)} = \frac{1}{\sqrt{2}}\lVert P_{\mathcal{S}_1} - P_{\mathcal{S}_2} \rVert_{\mathrm{F}} = \sqrt{\sum_{i=1}^{k} \sin^2(\theta_i)},
@@ -210,7 +210,7 @@ The projection operator onto the subspace $\mathcal{S}$ is given by $P_{\mathcal
 \newpage
 \section{Optimization}
 
-\begin{definition}[Convexity]
+\begin{definition}[Convexity]\label{def:conv}
     Let $\X$ be a real vector space. Let $f: \X \to \R$ be a function, such that $x \mapsto f(x)$. Then, $f$ is convex over $\X$, for all $x \in \X$, if and only if
     \[
         f(t x_1 + (1-t)x_2) \leq t f(x_1) + (1-t)f(x_2), 
@@ -276,6 +276,253 @@ A point $(x^*, y^*)$ is a local minimax point of $f: \X \times \Y \to \R$ if the
 f(x^*, y) \leq f(x^*, y^*) \leq \max_{y': d(y,y') \leq h(\delta)} f(x,y').
 \]
 \end{definition}
+
+\subsection{Robust Least-Squares}
+Consider the robust least-squares problem,
+\begin{equation}\label{eq:robust-ls}
+    \min_{x \in \R^n} \max_{\Sy \in \B^d_{\rho}(\hat{\Sy})} \lVert YY^\top x - b \rVert^2,
+\end{equation}
+where $\B^d_{\rho}(\hat{S}) = \{\Sy \in \Gr(k,n) \mid d(\Sy, \hat{\Sy}) \leq \rho \}$ is a ball on the Grassmannian centered at the subspace $\hat{\Sy}$ with radius $\rho > 0$, and $d(\cdot, \cdot)$ is a distance metric on the Grassmannian. For purposes of this discussion, we consider the chordal distance $d_2(\cdot, \cdot)$~(see \ref{defn:chordal} for definition).
+
+\subsubsection{Convexity}
+The robust least-squares problem in~\eqref{eq:robust-ls} is a non-concave in the inner maximization variable $\Sy$. However, it can be shown that the inner problem has an explicit solution, and hence as long as the outer minimization problem is convex, the overall problem remains tractable.
+\begin{lemma}
+    The robust least-squares problem in~\eqref{eq:robust-ls} is convex in the outer minimization variable $x$.
+    \begin{proof}
+        Let $f(x,Y) = \lVert YY^\top x - b \rVert^2$ denote the cost function in~\eqref{eq:robust-ls}. To show that $f$ is convex in $x$, we need to show that for any $x_1, x_2 \in \R^n$ and $0 \leq t \leq 1$, the following inequality holds (see~\ref{def:conv}):
+        \[
+            f(t x_1 + (1-t)x_2, Y) \leq t f(x_1, Y) + (1-t) f(x_2, Y).
+        \]
+        Expanding the left-hand side, we have:
+        \begin{equation*}
+        \begin{split}
+            f(t x_1 + (1-t)x_2, Y) &= \lVert Y Y^\top (t x_1 + (1-t)x_2) - b \rVert^2 \\
+            &= \lVert t (Y Y^\top x_1 - b) + (1-t)(Y Y^\top x_2 - b) \rVert^2.
+        \end{split}
+        \end{equation*}
+        Using the convexity of the squared norm (using \emph{Jensen's inequality}), we have:
+        \begin{equation*}
+        \begin{split}
+            f(t x_1 + (1-t)x_2, Y) &\leq t \lVert Y Y^\top x_1 - b \rVert^2 + (1-t) \lVert Y Y^\top x_2 - b \rVert^2 \\
+            &= t f(x_1, Y) + (1-t) f(x_2, Y).
+        \end{split}
+        \end{equation*}
+        Thus, $f(x,Y)$ is convex in $x$ for any fixed $Y$. Since the maximum of convex functions is also convex (\emph{preservation of convexity over maximization}), the overall problem in~\eqref{eq:robust-ls} is convex in $x$.
+    \end{proof}
+\end{lemma}
+
+
+\begin{proposition}\label{prop:lag}
+    If $(x^*, \Sy^*)$ is a local minimax point of the robust least-squares problem, then it is also a local minimax point of the following problem:
+    \[
+        \min_{x \in \R^n} \max_{\Sy \in \B^{d_2}_{\rho}(\hat{\Sy})} \mathrm{tr}\left(Y^\top B(x, \lambda) Y \right),
+    \]
+    where $B(x, \lambda) = A(x) + \lambda \hat{Y}\hat{Y}^\top$, and $A(x) = (x x^\top - b x^\top - x b^\top)$ for a \emph{KKT} multiplier $\lambda \geq 0$.
+    \begin{proof}
+        Let $f(x,Y) = \lVert YY^\top x - b \rVert^2$ denote the cost function in~\eqref{eq:robust-ls}. The ball constraint can be expressed as $g(Y) = d_2^2(Y, \hat{Y}) - \rho^2 \leq 0$. The Lagrangian function for the inner maximization problem is given by:
+        \[
+            \mathcal{L}(x,Y,\lambda) = f(x,Y) - \lambda g(Y),
+        \]
+        where $\lambda \geq 0$ is the \emph{KKT} multiplier (see~\eqref{eq:kkt} for details).
+        Expanding~\eqref{eq:robust-ls}, and ignoring constants, we have:
+        \begin{equation*}
+        \begin{split}
+            \mathcal{L}(x,Y,\lambda) &= \langle YY^\top x - b, YY^\top x - b \rangle - \lambda \left( \mathrm{tr}(Y^\top (\I - \hat{Y}\hat{Y}^\top) Y) - \rho^2 \right) \\
+            &= \mathrm{tr}\left( Y^\top A(x) Y\right) - \lambda\left(k - \mathrm{tr}\left( Y^\top \hat{Y}\hat{Y}^\top Y \right) -\rho^2 \right) \\
+            &= \mathrm{tr}\left( Y^\top \left(A(x) + \lambda \hat{Y}\hat{Y}^\top \right) Y \right) \\
+            &= \mathrm{tr}\left( Y^\top B(x, \lambda) Y \right),
+        \end{split}
+        \end{equation*}
+        where $A(x)$ and $B(x,\lambda)$ are defined as above.
+    \end{proof}
+\end{proposition}
+
+\begin{lemma}\label{lem:top-k}
+    Let $B \in \R^{n \times n}$ be a symmetric matrix. Define the function $h: \Gr(k,n) \to \R$ such that $h(\Sy) = \mathrm{tr}(Y^\top B Y)$, where $Y \in \R^{n \times k}$ is any orthogonal basis of the subspace $\Sy$. Then, $\max_{\Sy \in \Gr(k,n)} h(\Sy)$ has an explicit solution such that 
+    \[
+        \Sy^* = \{\textrm{top-k eigenspace of } B\}
+    \]
+    \begin{proof}
+        Let the eigen-decomposition of $B$ be given by $B = U \Lambda U^\top$, where $\Lambda = \mathrm{diag}(\lambda_1, \ldots, \lambda_n)$ with $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_n$ being the eigenvalues of $B$, and $U = [u_1, u_2, \ldots, u_n]$ is the orthogonal matrix of corresponding eigenvectors. For any subspace $\Sy \in \Gr(k,n)$ with orthogonal basis $Y$, we can express $Y$ in terms of the eigenvectors of $B$ as $Y = U Q$, where $Q \in \R^{n \times k}$ satisfies $Q^\top Q = I_k$. Then,
+        \begin{equation*}
+        \begin{split}
+            h(\Sy) &= \mathrm{tr}(Y^\top B Y) = \mathrm{tr}(Q^\top U^\top B U Q) = \mathrm{tr}(Q^\top \Lambda Q) \\
+            &= \sum_{i=1}^{k} q_i^\top \Lambda q_i = \sum_{i=1}^{k} \sum_{j=1}^{n} \lambda_j {(q_{ij})}^2,
+        \end{split}
+        \end{equation*}
+        where $q_i$ is the $i$-th column of $Q$. To maximize $h(\Sy)$, we need to choose $Q$ such that it maximizes the sum of the weighted eigenvalues. The maximum is achieved when the columns of $Q$ are chosen to be the top-$k$ eigenvectors of $B$. Thus, the optimal subspace $\Sy^*$ is spanned by the top-$k$ eigenvectors of $B$, i.e., 
+        \[
+            Y^* = \begin{bmatrix}
+            | & | & & | \\
+            | & | & & | \\
+            u_1 & u_2 & \cdots & u_k \\
+            | & | & & | \\
+            | & | & & |
+            \end{bmatrix}
+        \]
+        where $u_i$ is the $i$-th eigenvector of $B$. The optimal subspace is thus given by 
+        \[
+            \Sy^* = \mathrm{span}\{u_1, u_2, \ldots, u_k\}.
+        \]
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}
+    If $(x^*, \Sy^*)$ is a local minimax point of the robust least-squares problem~\eqref{eq:robust_lqt}, then the \emph{KKT} conditions for both the inner and outer problems are satisfied at $(x^*, \Sy^*)$ with some \emph{KKT} multiplier $\lambda^* \geq 0$.
+    \begin{proof}
+        Since $(x^*, \Sy^*)$ is a local minimax point of the robust least-squares problem~\eqref{eq:robust-ls}, it satisfies the first-order optimality conditions for both the inner maximization and outer minimization problems. Constructing the Lagrangian function for the inner maximization problem as in the previous proposition~\eqref{prop:lag}, we have:
+        \[
+            \mathcal{L}(x, \Sy, \lambda) = \mathrm{tr}\left(Y^\top B(x, \lambda) Y \right),
+        \]
+        where $B(x, \lambda) = A(x) + \lambda \hat{Y}\hat{Y}^\top$. The first-order optimality conditions for the inner maximization problem require that the gradient of the Lagrangian with respect to $\Sy$ vanishes at $\Sy^*$, i.e.,
+        \begin{equation*}
+            \begin{split}
+                \textrm{grad}_{\Sy} \mathcal{L}(x^*, \Sy^*, \lambda^*) & = 0, \\
+                P^{\perp}_{\Sy^*} \grad_Y \mathcal{\bar{L}}(x^*, Y^*, \lambda^*) & = 0, \\
+                P^{\perp}_{\Sy^*}(2 B(x^*, \lambda^*) Y^*) & = 0, \\
+                \implies B(x^*, \lambda^*) Y^* & = Y^* {Y^*}^\top B(x^*, \lambda^*) Y^*.
+            \end{split}
+        \end{equation*}
+        Hence, the columns of $Y^*$ are eigenvectors of $B(x^*, \lambda^*)$, corresponding to the top-$k$ eigenvalues (from~\ref{lem:top-k}).
+
+        Similarly, the first-order optimality conditions for the outer minimization problem require that the gradient of the Lagrangian with respect to $x$ vanishes at $x^*$, i.e.,
+        \begin{equation*}
+            \begin{split}
+                \grad_x \mathcal{L}(x^*, \Sy^*, \lambda^*) & = 0 \\
+                \grad_x \mathrm{tr}\left(Y^{* \top} B(x^*, \lambda^*) Y^* \right) & = 0 \\
+                P_{\Sy^*}x^* &= P_{\Sy^*} b
+            \end{split}
+        \end{equation*}
+    \end{proof}
+    
+\end{lemma}
+
+\begin{lemma}\label{lem:boundary}
+    If $\lambda > 0$, then the optimal subspace $\Sy^*$ for the inner problem lies on the boundary of the ball $\B_{\rho}(\hat{\Sy})$.
+    \begin{proof}
+        Assume, for the sake of contradiction, that the optimal subspace $\Sy^*$ lies in the interior of the ball $\B^{d_2}_{\rho}(\hat{\Sy})$. Then, we have $d_2(\Sy^*, \hat{\Sy}) < \rho$, which implies that $g(\Sy^*) < 0$. From the \emph{KKT} conditions (see~\eqref{eq:kkt}), we have the complementary slackness condition $\lambda g(\Sy^*) = 0$. Since $\lambda > 0$, it follows that $g(\Sy^*)$ must be equal to zero, which contradicts our assumption that $\Sy^*$ lies in the interior of the ball. Therefore, the optimal subspace $\Sy^*$ must lie on the boundary of the ball $\B^{d_2}_{\rho}(\hat{\Sy})$.
+    \end{proof}
+\end{lemma}
+
+\begin{remark}\label{rem:lambda}
+    Practically, the \emph{KKT} multiplier $\lambda$ can be interpreted as a regularization parameter that balances the trade-off between fitting the data and adhering to the constraint defined by the ball $\B^d_{\rho}(\hat{\Sy})$. A larger value of $\lambda$ places more emphasis on satisfying the constraint, while a smaller value allows for more flexibility in fitting the data. However, the choice of $\lambda$ value is not trivial and must be tuned based on satisfying the boundary condition in~\ref{lem:boundary}. This is typically implemented using techniques like line-search or bisection methods.
+\end{remark}
+
+\subsection{Constrained Robust Least-Squares}\label{subsec:cons-robust-ls}
+From the perspective of application in predictive control, it is often desirable to impose a specific type of constraint, called the \emph{past constraint}. Thus, the constrained robust least-squares problem is formulated as:
+\begin{equation}\label{eq:cons-robust-ls}
+    \min_{x \in \R^n} \max_{\Sy \in \B^d_{\rho}(\hat{\Sy})} \lVert YY^\top x - b \rVert^2 \quad \textrm{subject to} \quad MYY^\top x = z,
+\end{equation}
+where $M \in \R^{d \times n}$ and $z \in \R^d$ define the equality constraint. The \emph{KKT} conditions for this problem can be derived similarly to the unconstrained case, with the addition of Lagrange multipliers for the equality constraints.
+
+\begin{Note}
+    Typically, $d < k$ and $M$ is a full row-rank matrix such that $M = [\I_d, 0]$ is a selection matrix. This constraint ensures that the first $d$ components of the projected vector $YY^\top x$ match the given vector $z$. This is particularly useful in scenarios such as in model predictive control applications where past states or inputs are fixed.
+\end{Note}
+\begin{remark}
+    Although $M$ is always a full row-rank matrix, the matrix $C = MYY^\top$ may not be full row-rank for all orthogonal matrices $Y$. This is usually undesirable as it may lead to infeasibility of the equality constraint $Cx = z$. We will see how to address this issue using \emph{regularization} techniques. 
+\end{remark}
+
+\begin{proposition}
+    The explicit solution $\Sy^*$ to the inner maximization problem in~\eqref{eq:cons-robust-ls} is given by
+    \[
+        \Sy^* = \{ \textrm{top-k eigenspace of } B_c(x, \lambda^*, \gamma^*)\}
+    \]
+    for some \emph{KKT} multipliers $\lambda, {\{\gamma_i\}}_{i=1}^d$, where
+    \[
+        B_c(x,\lambda,\gamma) = A(x) + \lambda \hat{Y}\hat{Y}^\top + M^\top \gamma x^\top
+    \]
+    \begin{proof}
+        The problem~\eqref{eq:cons-robust-ls} can be posed as
+        \begin{equation}
+        \begin{split}
+            \min_{x \in \R^n} & \max_{\Sy \in \Gr(k,n)} f(x,Y) \\
+            \textrm{subject to} & \quad h(x,Y) = 0 \quad \textrm{and} \quad g(Y) \leq 0,
+        \end{split}
+        \end{equation}
+        where the following functions are defined as:
+        \begin{equation*}
+            \begin{split}
+                f(x,Y) &= \lVert YY^\top x - b \rVert^2 \\
+                h(x,Y) &= MYY^\top x - z \\
+                g(Y) &= d_2^2(Y,\hat{Y}) - \rho^2
+            \end{split}
+        \end{equation*}
+        Constructing the Lagrangian function,
+        \[
+            \mathcal{\bar{L}}(x,Y,\lambda, \gamma) = f(x,Y) - \lambda g(Y) + \gamma^\top h(x,Y)
+        \]
+        which satisfies the \emph{KKT} stationarity condition 
+        \[
+            \textrm{grad}_{\Sy} \mathcal{L}(x^*,\Sy^*, \lambda^*, \gamma^*) = P^{\perp}_{\Sy^*} \grad_{Y} \mathcal{\bar{L}}(x^*, Y^*, \lambda^*, \gamma^*) = 0 
+        \]
+        Using Proposition~\ref{prop:lag}, we also have that
+        \[
+            \mathcal{\bar{L}}(x,Y, \lambda, \gamma) = \mathrm{tr}\left(Y^\top B_c(x,\lambda, \gamma) Y \right),
+        \]
+        where $B_c(x,\lambda,\gamma)$ is as proposed.
+
+        Thus, the worst-case subspace is given by 
+        \[
+            \Sy^* = \{ \textrm{top-k eigenspace of } B_c(x, \lambda^*, \gamma^*)\}
+        \]
+
+    \end{proof}
+\end{proposition}
+
+\subsection{Regularization}\label{subsec:reg}
+In practical implementations of the optimization problems discussed above, it is often beneficial to incorporate regularization terms to enhance numerical stability and ensure well-posedness. 
+
+For example, in the above problems, we can easily observe that if $x^* \longrightarrow x^* + \eta$ for some $\eta \in \mathrm{Null}(YY^\top)$, then there are infinitely many optimal solutions that yield the same cost. To mitigate such issues, we can introduce a regularization term to the objective function. A common choice is to add $\ell_2$-norm regularization terms. This is a widely used technique under the name of \emph{Tikhonov regularization} (see~\cite{golub1999}) which has shown to improve the conditioning of least-squares problems.
+
+\subsubsection{Norm Regularization}
+Consider the regularized robust least-squares problem:
+\begin{equation}\label{eq:reg-robust-ls}
+    \min_{x \in \R^n} \max_{\Sy \in \B^d_{\rho}(\hat{\Sy})} \left(\lVert YY^\top x - b \rVert^2 + \mu \lVert x \rVert^2\right),
+\end{equation}
+where $\mu > 0$ is the regularization parameter. The addition of the term $\mu \lVert x \rVert^2$ helps to penalize large values of $x$, promoting solutions with smaller norms. This regularization can improve the conditioning of the optimization problem and lead to more stable solutions. 
+
+We also observe that the problem becomes strongly convex in $x$ due to the presence of the $\ell_2$-norm regularization term. In fact, the Hessian of the objective function with respect to $x$ is given by:
+\[
+    \Hess_x f(x,Y) = 2 \left(YY^\top  +  \mu \I \right),
+\]
+which is positive definite for any $\mu > 0$. This strong convexity ensures the uniqueness of the optimal solution $x^*$.
+
+\subsubsection{Constraint Regularization}\label{subsubsec:const-reg}
+Consider the regularized robust least-squares problem:
+\begin{equation}\label{eq:reg-cons-robust-ls}
+    \min_{x \in \R^n} \max_{\Sy \in \B^d_{\rho}(\hat{\Sy})} \left( \lVert YY^\top x - b \rVert^2 + \gamma \lVert MYY^\top x - z \rVert^2 \right),
+\end{equation}
+where $\gamma > 0$ is a regularization parameter. The relaxation of the equality constraint to an inequality constraint allows for some flexibility in satisfying the constraint, which can be particularly useful in scenarios where exact satisfaction of the constraint may not be feasible due to noise or modeling errors. This regularization can help to ensure the feasibility of the optimization problem while still promoting solutions that are close to satisfying the original equality constraint.
+
+This also helps in ensuring that the matrix $C = MYY^\top$ is full row-rank, thereby avoiding infeasibility issues. The equality constraint $h(x,Y) = 0$ is a coupled constraint involving both $x$ and $Y$, which affects convexity of the Lagrangian. 
+
+\begin{algorithm}[H]\label{alg:cons-robust-ls}
+    \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+        \KwData{Subspace Estimate $\hat{Y} \in \R^{n \times k}$, Vectors $b \in \R^n, z \in \R^d$}
+        \Input{Initial guess $x_0 \in \R^n$, time-step $\alpha > 0$, $\lambda_0, \rho, \gamma > 0$, \texttt{tolx}}
+        \Output{Optimal subspace $Y^*$, Optimal point $x^*$}
+    \BlankLine
+    \While{true}
+    {
+            $A_i = x_i x_i^\top - x_i b^\top - bx_i^\top$\;
+            $Y = \texttt{eigs}(A_i,k)$\;
+            \eIf{$d_2(Y,\hat{Y})\leq \rho$}{ 
+                $\lambda^* = 0$\;
+                $Y^* = Y$\;
+            }{
+            $\lambda^* = \arg \min_{\lambda} \big( d_2(Y(\lambda),\hat{Y}) - \rho \big)$\;
+            $B_i = A_i + \lambda^* \hat{Y}\hat{Y}^\top$\;
+            $Y^* = \{\texttt{top-k eigenvectors of } B_i \}$\;
+            }   
+            $v_i = \grad_{x_i}f(x_i, Y^*) = 2 Y^* {Y^*}^\top(x_i-b) + 2\gamma Y^*{Y^*}^\top M^\top (MY^*{Y^*}^\top x_i - z)$\;
+        \eIf{$\lVert v_i \rVert \leq$ \texttt{tolx}}{
+        break\;
+        }{ 
+        $x_{i+1} = x_i - \alpha v_i$; 
+        }
+    }
+\caption{Constrained Robust Least-Squares Algorithm}
+\end{algorithm}
 
 \section{Systems Theory}
 In this section, we briefly review some fundamental concepts in linear systems theory. Refer to~\cite{hespanha} for a comprehensive treatment.

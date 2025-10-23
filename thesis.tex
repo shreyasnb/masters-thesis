@@ -28,6 +28,8 @@
 
 % Ensure theorem-like environments are defined
 \usepackage{amsthm}
+\usepackage[linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
+\RestyleAlgo{ruled}
 \newtheorem{remark}{Remark}
 \newtheorem{result}{Result}
 \newtheorem{theorem}{Theorem}
@@ -55,15 +57,15 @@
     frontmatter/dedication,
     frontmatter/information,
     chapters/Introduction,
-    chapters/QuickSummary,
-    % chapters/LiteratureSurvey,
+    % % chapters/QuickSummary,
+    chapters/LiteratureSurvey,
     chapters/Preliminaries,
     chapters/Behavior,
     chapters/PredictiveControl,
     % chapters/Usage,
     % chapters/Features,
     % chapters/Tips,
-    % chapters/Summary,
+    chapters/Summary,
     % chapters/Appendix,
 }
 
@@ -89,19 +91,19 @@
 \mainmatter
 \include{chapters/Introduction}
 % \include{chapters/QuickSummary}
-% \include{chapters/LiteratureSurvey}
+\include{chapters/LiteratureSurvey}
 \include{chapters/Preliminaries}
 \include{chapters/Behavior}
 \include{chapters/PredictiveControl}
-\include{chapters/Usage}
-\include{chapters/Features}
-\include{chapters/Tips}
+% \include{chapters/Usage}
+% \include{chapters/Features}
+% \include{chapters/Tips}
 
 \backmatter
 \include{chapters/Summary}
 
-\appendix
-\include{chapters/Appendix}
+% \appendix
+% \include{chapters/Appendix}
 
 \references
 

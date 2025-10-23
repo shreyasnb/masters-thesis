@@ -1,64 +1,75 @@
 \chapter{Introduction}~\label{ch:Introduction}
 
-The objective of this thesis is to study the application of robust least-squares optimization in the context of data-driven predictive control. The fundamental idea lies in the behavioral approach to systems theory, which allows us to represent a dynamical system purely based on its observed input-output data, without requiring an explicit parametric model. This approach is particularly useful in scenarios where the underlying system dynamics are complex or unknown. 
+The objective of this thesis is to study the application of robust least-squares optimization in the context of data-driven predictive control. The fundamental idea lies in the behavioral approach to systems theory, which allows us to represent a dynamical system purely based on its observed input-output data, without requiring an explicit parametric model. This approach is particularly useful in scenarios where the underlying system dynamics are complex or unknown.
 
-Least-squares optimization is a classical problem which has been utilized across many domains in science and engineering over the past few centuries. The earliest documented usage of the problem can be traced back to Legendre (1805)~\cite{Legendre1805}, where it was described as an algebraic procedure for fitting linear equations to data. Legendre demonstrated the new method by analyzing the same data as Laplace for the shape of the Earth. On the other hand, Gauss (1809)~\cite{Gauss1809} went beyond Legendre and succeeded in connecting the method of least-squares with the principles of probability. The least-squares technique soon became an indispensable tool in astronomy, geodesy and laid the foundation of many core concepts in modern engineering problems.
+\section{Robust Least-Squares}
+The robust least-squares problem has been extensively studied in the context of optimization and control theory. The foundational work by El Ghaoui and Lebret~\cite{ghaoui97} introduced a robust optimization framework for least-squares problems, addressing uncertainties in the data.
 
-\section{Problem Overview}
-\subsection{Robust Least-Squares}
+The classical least-squares problem aims to minimize the sum of squared residuals between observed and predicted values. This problem can be formulated as follows:
+\[\min_{x \in \mathbb{R}^n} \|Ax - b\|_2^2,\]
+where \(A \in \mathbb{R}^{m \times n}\) is the data matrix, \(b \in \mathbb{R}^m\) is the observation vector, and \(x \in \mathbb{R}^n\) is the vector of unknown parameters to be estimated. This can be visualized in Figure~\ref{fig:lsq}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/lsq.png}
+    \caption{Classical Least-Squares Problem}
+    \label{fig:lsq}
+\end{figure}
 
-The least-squares problem is most commonly seen in the form shown below:
-\begin{equation}
-    \min_{x \in \R^n} \lVert A x - b \rVert_2^2,
-\end{equation}
-where $A \in \R^{m \times n}$ is a matrix of coefficients, $b \in \R^m$ is a vector of observations, and $x \in \R^n$ is the vector of unknowns to be determined. Thus, by minimizing the residual $\Delta b = A x - b$, it determines a solution that closely matches b in the Euclidean 2-norm. As the domain of applied statistics progressed, the total least squares problem~\cite{golub1980} was studied, which considered perturbations in both dependent and independent variables, i.e., ($\Delta A, \Delta b$). The optimal solutions may be sensitive to perturbations in the data ($A, b$). One way to mitigate this is to consider the robust least squares problem:
-\begin{equation}
-    \min_{x \in \R^n} \max_{A \in \mathbb{B}^{\textrm{F}}_{\rho}(\hat{A})} \lVert Ax - b \rVert_2^2,
-\end{equation}
-where $\mathbb{B}_{\rho}^{\mathrm{F}}(\hat{A}) = \{ A \in \R^{m \times n} : \lVert A - \hat{A} \rVert_2 \leq \rho \}$ is a ball centered around $\hat{A}$ with radius $\rho$, endowed with the Frobenius norm. 
+However, in many practical scenarios, the data matrix \(A\) and observation vector \(b\) may be subject to uncertainties or perturbations. The robust (or total) least-squares problem extends the classical formulation by considering these uncertainties, leading to a more resilient estimation process:
+\[\min_{\Delta A, \Delta b} \|[\Delta A \mid \Delta b]\|^2_F \quad \text{subject to} \quad (A + \Delta A)x = b + \Delta b,
+\]
+where \(\Delta A\) and \(\Delta b\) represent the uncertainties in the data matrix and observation vector, respectively. The problem can be visualized in Figure~\ref{fig:total-lsq}. 
 
-Building on these ideas, alternative perturbation models have been explored, yielding different robust versions of the least-squares problem. For instance, El Ghaoui and Lebret (1997)~\cite{ghaoui97} considered the robust least squares problem
-\begin{equation}
-    \min_{x \in \R^n} \max_{[A \ b] \in \B^{\textrm{F}}_{\rho}([\hat{A} \ \hat{b}])} \lVert Ax - b \rVert_2^2.
-\end{equation}
-This approach is motivated by scenarios where the exact data $(A,b)$ are unknown, but belong to a family of matrices $(\hat{A} + \Delta A , \hat{b} + \Delta b)$ and the residual $[\Delta A \ \Delta b]$ lies in a norm-bounded matrix ball.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/total-lsq.png}
+    \caption{Total Least-Squares Problem}
+    \label{fig:total-lsq}
+\end{figure}
 
-In this thesis, we introduce a robust optimization framework that accounts for the geometric nature of perturbations found in diverse instances of the problem. Specifically, we consider the optimization problem,
-\begin{equation}
-    \min_{x \in \R^n} \max_{\mathcal{S} \in \B^d_{\rho}(\hat{\mathcal{S}})} \lVert P_{\mathcal{S}} x - b \rVert_2^2,
-\end{equation}
-where $P_{\mathcal{S}}$ is the orthogonal projection onto the $k$-dimensional subspace $\mathcal{S}$ of $\R^n$, and $\mathbb{B}^d_{\rho}(\hat{\mathcal{S}})$ is a ball centered at $\hat{\mathcal{S}}$ with radius $\rho$ defined by the metric $d$ on the \textit{Grassmannian} $\Gr(k,n)$, which is  the set of all $k$-dimensional subspaces in $\R^n$ endowed with the structure of a smooth Riemannian manifold. This approach is motivated by a diverse range of applications where the linear model $A$ is a matrix representation of a subspace subject to bounded perturbations (due to uncertainty or approximations errors), quantified naturally in terms of distances between subspaces.
+Significant advancements have been made in solving robust least-squares problems, including the development of efficient algorithms and theoretical guarantees for their performance~\cite{ghaoui97}. This framework led to an equivalent reformulation of the robust least-squares problem as a minimax optimization problem, posed as:
+\[\min_{x \in \mathbb{R}^n} \max_{A \in \B_{\rho}(\hat{A})} \|Ax - b\|_2^2,\]
+where \(\B_{\rho}(\hat{A})\) denotes a ball of radius \(\rho\) centered at the nominal data matrix \(\hat{A}\). This reformulation allows for the application of bilevel optimization techniques to solve the robust least-squares problem efficiently, especially when $A$ has a special structure (e.g. elements on a manifold). The geometrically robust least-squares problem can be visualized in Figure~\ref{fig:robust-lsq}.
 
-\subsection{Data-Driven Predictive Control}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/robust-lsq.png}
+    \caption{(Geometrically) Robust Least-Squares}
+    \label{fig:robust-lsq}
+\end{figure}
 
-The availability of large datasets coupled with unprecedented storage and computational power has recently reignited interest in direct data-driven control methods, which aim to infer optimal decisions directly from measured data (bypassing system identification). At the heart of this emerging trend lies the behavioral approach to system theory (Willems, 2007~\cite{willems2007}) and a seminal result by Willems and his collaborators \cite{willems2005}, commonly referred to as the \textit{fundamental lemma}. The lemma establishes that finite-horizon behaviors of Linear Time-Invariant (LTI) systems can be represented as images of raw data matrices. 
+All these variants of least-squares problems indeed have explicit solutions that can be computed efficiently using singular value decomposition (SVD) techniques~\cite{golub1980}. However, in practice, we usually encounter constraints on the feasible set of solutions. This leads to constrained robust least-squares problems, which are generally more challenging to solve. Various approaches have been proposed to tackle these problems, including regularization, convex relaxation techniques, iterative algorithms, and heuristic methods.
 
-The proposed idea behind data-driven predictive control via the geometric approach is posed as:
-\begin{enumerate}
-    \item Collect a single input-output trajectory of the system, denoted by $\{u_k, y_k\}_{k=0}^{N-1}$, where $u_k \in \R^m$ and $y_k \in \R^p$ are the input and output at time step $k$, respectively. Store trajectories as $w_k = [u_k^\top \ y_k^\top]^\top \in \R^{q}$ where $q = m + p$.
-    \item Construct the Hankel matrix of depth $L$ from the collected data:
-    \[
-        \mathcal{H}_L(w) = \begin{bmatrix}
-            w_0 & w_1 & w_2 & \cdots & w_{N-L} \\
-            w_1 & w_2 & w_3 & \cdots & w_{N-L+1} \\
-            \vdots & \vdots & \vdots & \ddots & \vdots \\
-            w_{L-1} & w_L & w_{L+1} & \cdots & w_{N-1}
-        \end{bmatrix} \in \R^{qL \times (N-L+1)}.
-    \]
-    \item According to the fundamental lemma, if the input sequence $\{u_k\}$ is persistently exciting of order $L + n$ (where $n$ is the order of the system), then any trajectory of length $L$ can be expressed as a linear combination of the columns of $\mathcal{H}_L(w)$. In other words, the behavior $\mathfrak{B}_L$ of the system over a horizon $L$ is given by:
-    \[
-        \mathfrak{B}_L = \textrm{im}(\mathcal{H}_L(w)) 
-    \]
-    We identify $\mathfrak{B}_L$ as a $k$-dimensional subspace of $\R^{qL}$, where $k \leq qL$ is the rank of $\mathcal{H}_L(w)$. Thus, it is an element of the Grassmannian $\Gr(k, qL)$, denoted as $\mathcal{S} \equiv \mathfrak{B}_L$.
-    \item At each time step $t$, solve a constrained least-squares problem to find the optimal trajectory that minimizes the cost function while satisfying the system's behavior. The optimization problem can be formulated as:
-    \[
-        \min_{x \in \R^{qL}} \max_{\mathcal{S} \in \B^d_{\rho}(\hat{\mathcal{S}})} \lVert P_{\mathcal{S}} x - b \rVert_2^2 , \quad \textrm{s.t.} \quad P_{\mathcal{S}}x \in \mathfrak{B}_L
-    \]
-   
-\end{enumerate}
+\section{Behavioral Approach to System Theory}
+The behavioral approach to system theory, pioneered by Jan C. Willems in the 1980s~\cite{willems1986}, provides a framework for modeling and analyzing dynamical systems based on their observed behaviors rather than traditional state-space representations. This approach emphasizes the importance of trajectories and the relationships between inputs and outputs, allowing for a more flexible and general representation of systems. The behavioral approach has been applied to various areas, including system identification, control design, and fault detection.
 
-As a result, various data-driven modeling, estimation, filtering, and control problems can be formulated as weighted or constrained least squares problems (Markovsky and D\"orfler, 2021~\cite{markovsky2021}). Moreover, being finite-dimensional subspaces, finite-horizon LTI behaviors can be identified with points on the Grassmannian $\Gr(k, n)$ and uncertainty can be naturally quantified using Grassmannian (subspace) metrics. This approach has demonstrated its effectiveness in data-driven mode recognition and control applications and shows promise to open new avenues in adaptive control (Padoan et al., 2022~\cite{padoan2022}).
+    \begin{figure}[h]
+        \centering
+        \begin{minipage}{0.32\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{figures/transfer-function.png}
+            \parbox{\linewidth}{\centering\small Transfer function}
+            % \label{fig:placeholder}
+        \end{minipage}\hfill
+        \begin{minipage}{0.32\textwidth}
+            \centering
+            \includegraphics[width=\linewidth, trim={2cm, 0cm, 3cm, 0cm}, clip]{figures/state-space.png}
+            \parbox{\linewidth}{\centering\small State-space}
+            % \label{fig:placeholder}
+        \end{minipage}\hfill
+        \begin{minipage}{0.32\textwidth}
+            \centering
+            \includegraphics[width=\linewidth, trim={0cm 0cm 0cm 3cm}, clip]{figures/behavior.png}
+            \parbox{\linewidth}{\centering\small Behavior}
+            % \label{fig:placeholder}
+        \end{minipage}
+    \end{figure}
 
-In summary, the main focus of this thesis is to explore the robust least-squares problem with subspace uncertainty and its application in data-driven predictive control via behavioral systems theory. We investigate the theoretical foundations of this approach, develop efficient algorithms for solving the robust optimization problem, and demonstrate its effectiveness through numerical simulations and real-world applications. The ultimate goal is to provide a geometric approach to robust and reliable framework for data-driven control that can handle uncertainties in the system dynamics and improve the performance of control systems in practice.
+Willems' seminal work laid the foundation for the behavioral approach, introducing key concepts such as the notion of a system's behavior as a set of trajectories and the idea of controllability and observability in this context. Subsequent research expanded on these ideas, exploring various aspects of behavioral systems, including their interconnections, feedback control, and robustness properties~\cite{willems1989,padoan2022}.
+
+\section{Data-Driven Control Methods}
+Data-driven control methods have gained significant attention in recent years due to their ability to leverage data directly for control design, bypassing the need for explicit system identification. These methods are particularly useful in scenarios where obtaining accurate models is challenging or impractical. One prominent class of data-driven control methods is predictive control, which utilizes historical data to predict future system behavior and optimize control actions accordingly. Predictive control methods, such as Model Predictive Control (MPC), have been widely studied and applied in various domains, including process control, robotics, and autonomous systems~\cite{camacho2007}.
+
+Recent advancements in data-driven predictive control via behavioral system theory have led to the development of novel control strategies that directly utilize input-output data for control synthesis. These approaches often involve constructing Hankel matrices from collected data and formulating optimization problems that ensure desired closed-loop properties, such as stability and performance. A notable example is the work by Coulson et al.~\cite{jeremy2019}, which introduced a data-driven predictive control (DeePC) framework based on Willems' fundamental lemma. This framework allows for the design of controllers that guarantee closed-loop stability and performance without requiring an explicit model of the system, including complex nonlinear systems like quadcopters.
 
 
