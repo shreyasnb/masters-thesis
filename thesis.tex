@@ -16,10 +16,10 @@
 \input{preamble/toggles}
 % \FANCYfalse % disable some of the more fancy stylistic choices
 %% NOTE: Comment out the following lines for the final version
-\WIPtrue            % THIS IS A WORK-IN-PROGRESS VERSION
+\WIPtrue{}           % THIS IS A WORK-IN-PROGRESS VERSION
 % \EXTRAMARGINtrue  % add extra right margin in WIP version (for notes/corrections)
 % \LINKBOXESfalse   % disable reference/link boxes for faster compilations
-\CENSORtrue         % THIS IS A CENSORED VERSION
+\CENSORtrue{}         % THIS IS A CENSORED VERSION
 
 %% Preamble - data, packages, macros, and more
 \input{preamble/main}
@@ -57,26 +57,21 @@
     frontmatter/acknowledgements,
     frontmatter/information,
     chapters/Introduction,
-    % % chapters/QuickSummary,
     chapters/LiteratureSurvey,
     chapters/Preliminaries,
     chapters/Behavior,
     chapters/PredictiveControl,
-    % chapters/Usage,
-    % chapters/Features,
-    % chapters/Tips,
     chapters/Summary,
-    % chapters/Appendix,
 }
 
 % Ensure .aux exists (create an empty file on first run) to avoid:
 %   I can't find file `thesis.aux'.
 % which can stop LaTeX on the first compilation pass.
 \IfFileExists{\jobname.aux}{}{%
-  \newwrite\auxfile
+  \newwrite\auxfile{}
   \immediate\openout\auxfile=\jobname.aux
   \immediate\write\auxfile{}%
-  \immediate\closeout\auxfile
+  \immediate\closeout\auxfile{}
 }
 
 \begin{document}
@@ -88,24 +83,20 @@
 \include{frontmatter/information}
 \include{frontmatter/acknowledgements}
 
-\contentsandlists
-\mainmatter
+\contentsandlists{}
+\mainmatter{}
 \include{chapters/Introduction}
-% \include{chapters/QuickSummary}
 \include{chapters/LiteratureSurvey}
 \include{chapters/Preliminaries}
 \include{chapters/Behavior}
 \include{chapters/PredictiveControl}
-% \include{chapters/Usage}
-% \include{chapters/Features}
-% \include{chapters/Tips}
 
-\backmatter
+\backmatter{}
 \include{chapters/Summary}
 
 % \appendix
 % \include{chapters/Appendix}
 
-\references
+\references{}
 
 \end{document}

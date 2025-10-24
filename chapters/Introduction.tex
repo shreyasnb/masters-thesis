@@ -11,31 +11,31 @@ where \(A \in \mathbb{R}^{m \times n}\) is the data matrix, \(b \in \mathbb{R}^m
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.4\textwidth]{figures/lsq.png}
-    \caption{Classical Least-Squares Problem}
-    \label{fig:lsq}
+    \caption{Classical Least-Squares Problem}~\label{fig:lsq}
 \end{figure}
 
 However, in many practical scenarios, the data matrix \(A\) and observation vector \(b\) may be subject to uncertainties or perturbations. The robust (or total) least-squares problem extends the classical formulation by considering these uncertainties, leading to a more resilient estimation process:
-\[\min_{\Delta A, \Delta b} \|[\Delta A \mid \Delta b]\|^2_F \quad \text{subject to} \quad (A + \Delta A)x = b + \Delta b,
+\[
+\min_{\Delta A, \Delta b} \left\| \begin{bmatrix} \Delta A & \Delta b \end{bmatrix} \right\|_F^2
+\quad\text{subject to}\quad
+(A + \Delta A)x = b + \Delta b,
 \]
 where \(\Delta A\) and \(\Delta b\) represent the uncertainties in the data matrix and observation vector, respectively. The problem can be visualized in Figure~\ref{fig:total-lsq}. 
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.4\textwidth]{figures/total-lsq.png}
-    \caption{Total Least-Squares Problem}
-    \label{fig:total-lsq}
+    \caption{Total Least-Squares Problem}~\label{fig:total-lsq}
 \end{figure}
 
 Significant advancements have been made in solving robust least-squares problems, including the development of efficient algorithms and theoretical guarantees for their performance~\cite{ghaoui97}. This framework led to an equivalent reformulation of the robust least-squares problem as a minimax optimization problem, posed as:
 \[\min_{x \in \mathbb{R}^n} \max_{A \in \B_{\rho}(\hat{A})} \|Ax - b\|_2^2,\]
-where \(\B_{\rho}(\hat{A})\) denotes a ball of radius \(\rho\) centered at the nominal data matrix \(\hat{A}\). This reformulation allows for the application of bilevel optimization techniques to solve the robust least-squares problem efficiently, especially when $A$ has a special structure (e.g. elements on a manifold). The geometrically robust least-squares problem can be visualized in Figure~\ref{fig:robust-lsq}.
+where \(\B_{\rho}(\hat{A})\) denotes a ball of radius \(\rho\) centered at the nominal data matrix \(\hat{A}\). This reformulation allows for the application of bilevel optimization techniques to solve the robust least-squares problem efficiently, especially when $A$ has a special structure (e.g.\ elements on a manifold). The geometrically robust least-squares problem can be visualized in Figure~\ref{fig:robust-lsq}.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.4\textwidth]{figures/robust-lsq.png}
-    \caption{(Geometrically) Robust Least-Squares}
-    \label{fig:robust-lsq}
+    \caption{(Geometrically) Robust Least-Squares}~\label{fig:robust-lsq}
 \end{figure}
 
 All these variants of least-squares problems indeed have explicit solutions that can be computed efficiently using singular value decomposition (SVD) techniques~\cite{golub1980}. However, in practice, we usually encounter constraints on the feasible set of solutions. This leads to constrained robust least-squares problems, which are generally more challenging to solve. Various approaches have been proposed to tackle these problems, including regularization, convex relaxation techniques, iterative algorithms, and heuristic methods.

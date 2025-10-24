@@ -12,7 +12,7 @@ The set of positive and non-negative integers are denoted by $\N$ and $\Z_+$, re
 For ${T\in\N}$, the set of integers $\{1, 2, \dots , T\}$ is denoted by $\mathbf{T}$.  A map $f$ from $X$ to $Y$ is denoted by ${f:X \to Y}$; $(Y)^{X}$ denotes the set of all such maps. The \textit{restriction} of ${f:X \to Y}$ to a set ${X^{\prime}}$, with ${X^{\prime} \cap X \neq \emptyset}$, is denoted by $f|_{X^{\prime}}$ and is defined by $f|_{X^{\prime}}(x)$ for ${x \in X^{\prime}}$; if ${\mathcal{F} \subseteq (Y)^{X}}$, then $\mathcal{F}|_{X^{\prime}}$ is defined as ${\{ f|_{X^{\prime}} \, : \, f \in \mathcal{F}\}}$.
 
 \subsubsection{Linear algebra}
-The transpose, image, and kernel of a matrix ${M\in\R^{m\times n}}$ are denoted by $M^{\top}$, $\Image\, M$, and $\Ker M$, respectively. The $m \times p$ zero matrix is denoted by $0_{m \times p}$ and the $m \times p$ matrix with ones on the main diagonal and zeros elsewhere is denoted by $I_{m \times p}$. For $m = p$, we use $0_p$ and $I_p$, and subscripts are omitted when dimensions are clear from context. The Kronecker product of the matrices $M \in \R^{m \times n}$ and $N \in \R^{p \times q}$ is denoted by $M \otimes N$. 
+The transpose, image, and kernel of a matrix ${M\in\R^{m\times n}}$ are denoted by $M^{\top}$, $\Image\, M$, and $\Ker M$, respectively. The $m \times p$ zero matrix is denoted by $0_{m \times p}$ and the $m \times p$ matrix with ones on the main diagonal and zeros elsewhere is denoted by $\I_{m \times p}$. For $m = p$, we use $0_p$ and $\I_p$, and subscripts are omitted when dimensions are clear from context. The Kronecker product of the matrices $M \in \R^{m \times n}$ and $N \in \R^{p \times q}$ is denoted by $M \otimes N$. 
 
 
 \subsection{Sequences, shift operator, Hankel matrices}
@@ -70,7 +70,7 @@ R(z) = R_1 + R_2 z + \cdots + R_{d}z^{d-1},
    w = \begin{bmatrix}
       u \\
       y
-   \end{bmatrix}
+   \end{bmatrix}.
  \end{equation}
  We write $w \sim (u,y)$ if~\eqref{eq:partition} holds for some  permutation matrix ${\Pi\in\R^{q\times q}}$ and integer ${0 < m < q}$.  
  Any partition~\eqref{eq:partition} induces natural  projections  ${ \pi_u:  w \mapsto u}$ and ${ \pi_y:  w \mapsto y}$. We call~\eqref{eq:partition} a \textit{partition of ${\Be\in\mathcal{L}^{q}}$} if~\eqref{eq:partition} holds for all ${w\in\Be}$; the partition~\eqref{eq:partition} is an \textit{input-output partition} if $u$ is an \textit{input} and $y$ is an \textit{output} (see~\cite[p.568]{willems1986} for definitions).
@@ -135,7 +135,7 @@ As a direct consequence of Lemma~\ref{lemma:subspace}, the restricted behavior o
  \end{lemma}
 
 \noindent
-The rank condition~\eqref{eq:generalized_persistency_of_excitation} is referred to as the  \emph{generalized persistency of excitation} condition~\cite{markovsky2020}. Thus, we call a trajectory ${w \in \Be|_{[1,T]}}$ of a system ${\Be \in \mathcal{L}^{q}}$ \emph{generalized persistently exciting (GPE) of order $L$} if~\eqref{eq:generalized_persistency_of_excitation} holds. Different variations of this principle can be formulated under a range of assumptions, see, \textit{e.g.}, the recent survey~\cite{markovsky2021} for an overview and~\cite{padoan2022} for some extensions to broader classes of systems.
+The rank condition~\eqref{eq:generalized_persistency_of_excitation} is referred to as the \emph{generalized persistency of excitation} condition~\cite{markovsky2020}. It can be proven that this condition holds if and only if Kalman's rank condition~\ref{def:kalman-rank} holds for the given system, \emph{i.e.}, the system must be controllable and observable. Thus, we call a trajectory ${w \in \Be|_{[1,T]}}$ of a system ${\Be \in \mathcal{L}^{q}}$ \emph{generalized persistently exciting (GPE) of order $L$} if~\eqref{eq:generalized_persistency_of_excitation} holds. Different variations of this principle can be formulated under a range of assumptions, see, \textit{e.g.}, the recent survey~\cite{markovsky2021} for an overview and~\cite{padoan2022} for some extensions to broader classes of systems.
 
 \newpage
 \section{System Identification}
@@ -164,7 +164,7 @@ Behaviors can be viewed as points on a Grassmannian manifold, which is the space
 
 Given restricted behavior $\Be|_{[1,L]}$ of dimension $k = m(\Be)L + n(\Be)$, we can associate it with a point on the Grassmannian manifold $\Gr(k, qL)$.
 
-Denote $r_H = \rank \mathcal{H}_L(w)$ for trajectories ${\{w_i\}}_1^{T_d}$. Depending on the noise level, $r_H$ satisfies the following:
+Denote $r_H = \rank \mathcal{H}_L(w)$ for trajectories ${\{w_i\}}_{i=1}^{T_d}$. Depending on the noise level, $r_H$ satisfies the following:
 \begin{equation}
   k \leq r_H \leq n,
 \end{equation}

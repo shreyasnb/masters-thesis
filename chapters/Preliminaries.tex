@@ -1,9 +1,8 @@
-\chapter{Preliminaries} \label{ch:Preliminaries}
+\chapter{Preliminaries}~\label{ch:Preliminaries}
 
 This chapter introduces mathematical concepts and notations related to optimization theory, behavioral approach to systems theory, and data-driven predictive control that will be used throughout this thesis.
 
-\section{Geometry} \label{sec:opt}
-
+\section{Geometry}~\label{sec:opt}
 In this section, we briefly review some fundamental concepts from Riemannian geometry and optimization on manifolds. For a more comprehensive treatment, the reader is referred to~\cite{absil,boumal2023}.
 
 \subsection{Euclidean Spaces}
@@ -42,14 +41,14 @@ where $\textrm{Tr}(M) = \sum_{i} M_{ii}$ denotes the trace of a matrix. We often
 \begin{definition}[Differential]
     Let $U,V$ be two open sets in two Euclidean spaces $\mathcal{E}_1$ and $\mathcal{E}_2$, respectively. A map $F : U \to V$ is said to be \emph{smooth} if it is infinitely differentiable (class $\mathcal{C}^{\infty}$) on its domain. 
 
-    Also, $F$ is said to be \emph{differentiable} at a point $x \in U$ if there exists a neighborhood $U'$of $x$ such that $F \mid_{U'}$ is smooth. Thus, if $F : U \to V$ is smooth at $x$, then its \emph{differential} at $x$, is the linear map $\textrm{D}F(x): \mathcal{E}_1 \to \mathcal{E}_2$ defined as:
+    Also, $F$ is said to be \emph{differentiable} at a point $x \in U$ if there exists a neighborhood $U'$of $x$ such that $F \mid_{U'}$ is smooth. Thus, if $F : U \to V$ is smooth at $x$, then its \textit{differential} at $x$, is the linear map $\textrm{D}F(x): \mathcal{E}_1 \to \mathcal{E}_2$ defined as:
     \[
         \textrm{D}F(x)[v] = \frac{d}{dt} F(x+tv) \Big|_{t = 0} =  \lim_{t \to 0} \frac{F(x + tv) - F(x)}{t}
     \]
 \end{definition}
 
 \begin{definition}[Euclidean Gradient]
-    Consider a smooth function $f: \mathcal{E} \to \R$, where $\mathcal{E}$ is a linear space. The Euclidean gradient with respect to an inner product $\langle \cdot, \cdot \rangle: \mathcal{E} \times \mathcal{E} \to \R$, denoted by $\grad{f}(x)$ is a unique element of $\mathcal{E}$ such that, for all $v \in \mathcal{E}$, 
+    Consider a smooth function $f: \mathcal{E} \to \R$, where $\mathcal{E}$ is a linear space. The \textit{Euclidean gradient} with respect to an inner product $\langle \cdot, \cdot \rangle: \mathcal{E} \times \mathcal{E} \to \R$, denoted by $\grad{f}(x)$ is a unique element of $\mathcal{E}$ such that, for all $v \in \mathcal{E}$, 
     \[
         \langle v, \grad{f}(x) \rangle = \textrm{D}f(x)[v],\quad x,v \in \mathcal{E},
     \]
@@ -57,14 +56,14 @@ where $\textrm{Tr}(M) = \sum_{i} M_{ii}$ denotes the trace of a matrix. We often
 \end{definition}
 
 \begin{definition}[Euclidean Hessian]
-    The Euclidean Hessian of a smooth function $f: \mathcal{E} \to \R$ is the linear map $\textrm{Hess}f(x) : \mathcal{E} \to \mathcal{E}$ defined as:
+    The \textit{Euclidean Hessian} of a smooth function $f: \mathcal{E} \to \R$ is the linear map $\textrm{Hess}f(x) : \mathcal{E} \to \mathcal{E}$ defined as:
     \[
         \textrm{Hess}f(x)[v] = \textrm{D}(\grad{f})(x)[v] = \frac{d}{dt} \grad{f}(x + tv) \Big|_{t = 0}, \quad \forall x,v \in \mathcal{E}.
     \]
 \end{definition}
 
 \begin{definition}[Embedded Submanifold]
-    Let $\mathcal{E}$ be a linear space of dimension $k$. A non-empty subset $\M$ of $\mathcal{E}$ is a (smooth) \emph{embedded submanifold} of $\mathcal{E}$ of dimension $n$ if either of the following conditions hold:
+    Let $\mathcal{E}$ be a linear space of dimension $k$. A non-empty subset $\M$ of $\mathcal{E}$ is a (smooth) \textit{embedded submanifold} of $\mathcal{E}$ of dimension $n$ if either of the following conditions hold:
     \begin{enumerate}
         \item $n=k$ and $\M$ is open in $\mathcal{E}$, also called an open submanifold; or 
         \item $n=k-q$ for some $q \geq 1$ and, for each $x \in \M$, there exists an open neighborhood $U$ of $x$ in $\mathcal{E}$ and a smooth map $h : U \to \R^q$ such that:
@@ -78,14 +77,14 @@ where $\textrm{Tr}(M) = \sum_{i} M_{ii}$ denotes the trace of a matrix. We often
 \end{definition}
 
 \begin{definition}[Tangent Space]
-   Let $\M$ be a subset of $\mathcal{E}$. For all $x \in \M$, the \emph{tangent space} to $\M$ at $x$, denoted by $T_x \M$, is defined as the set of all vectors that are tangents at $x$ to smooth curves on $\M$, i.e.,
+   Let $\M$ be a subset of $\mathcal{E}$. For all $x \in \M$, the \textit{tangent space} to $\M$ at $x$, denoted by $T_x \M$, is defined as the set of all vectors that are tangents at $x$ to smooth curves on $\M$, i.e.,
    \[
         T_x \M = \{ \gamma'(0) \mid \gamma : (-\epsilon, \epsilon) \to \M \textrm{ is a smooth curve with } \gamma(0) = x \}.
    \]
 \end{definition}
 
 \begin{definition}[Tangent Bundle]
-    The \emph{tangent bundle} of a manifold $\M$ is the set of all tangent spaces over all points in $\M$:
+    The \textit{tangent bundle} of a manifold $\M$ is the set of all tangent spaces over all points in $\M$:
     \[
         T\M = \{ (x,v) \mid x \in \M, v \in T_x \M \}.
     \]
@@ -104,17 +103,17 @@ where $\textrm{Tr}(M) = \sum_{i} M_{ii}$ denotes the trace of a matrix. We often
     \]
 \end{definition}
 
-\begin{definition}[Riemannian Metric] \label{def:riem-metric}
-    A metric $\langle \cdot, \cdot \rangle$ on $T_x \M$ is a Riemannian metric if it varies smoothly with $x$, in the sense that for all smooth vector fields $V,W$ on $\M$, the function $x \mapsto \langle V(x), W(x) \rangle_x$ is smooth.
+\begin{definition}[Riemannian Metric]~\label{def:riem-metric}
+    A metric $\langle \cdot, \cdot \rangle$ on $T_x \M$ is a \textit{Riemannian metric} if it varies smoothly with $x$, in the sense that for all smooth vector fields $V,W$ on $\M$, the function $x \mapsto \langle V(x), W(x) \rangle_x$ is smooth.
 \end{definition}
 
-\begin{definition}[Riemannian Manifold] \label{def:riem-manifold}
-    A Riemannian manifold is a smooth manifold $\M$ endowed with a \Nref*{def:riem-metric} $\langle \cdot, \cdot \rangle$.
+\begin{definition}[Riemannian Manifold]~\label{def:riem-manifold}
+    A \textit{Riemannian manifold} is a smooth manifold $\M$ endowed with a \Nref*{def:riem-metric} $\langle \cdot, \cdot \rangle$.
     
 \end{definition}
 
 \begin{definition}[Riemannian Submanifold]
-    An embedded submanifold $\M$ of a Euclidean space $\mathcal{E}$ is a Riemannian submanifold if it is endowed with the Riemannian metric induced by the inner product of $\mathcal{E}$, i.e., for all $x \in \M$ and $u,v \in T_x \M$,
+    An embedded submanifold $\M$ of a Euclidean space $\mathcal{E}$ is a \textit{Riemannian submanifold} if it is endowed with the Riemannian metric induced by the inner product of $\mathcal{E}$, i.e., for all $x \in \M$ and $u,v \in T_x \M$,
     \[
         \langle u, v \rangle_x = \langle u, v \rangle,
     \]
@@ -123,7 +122,7 @@ where $\textrm{Tr}(M) = \sum_{i} M_{ii}$ denotes the trace of a matrix. We often
 \end{definition}
 
 \begin{definition}[Riemannian Gradient]
-    Let $f : \mathcal{M} \to \R$ be smooth on a Riemannian manifold $\mathcal{M}$. The Riemannian gradient of $f$ is the vector field $\textrm{grad}f$ on $\mathcal{M}$ uniquely defined by the following identities:
+    Let $f : \mathcal{M} \to \R$ be smooth on a Riemannian manifold $\mathcal{M}$. The \textit{Riemannian gradient} of $f$ is the vector field $\textrm{grad}f$ on $\mathcal{M}$ uniquely defined by the following identities:
     \[
         \forall (x,v) \in \textrm{T}\mathcal{M}, \quad \textrm{D}f(x)[v] = \langle v, \textrm{grad}f(x) \rangle_x,
     \]
@@ -131,7 +130,7 @@ where $\textrm{Tr}(M) = \sum_{i} M_{ii}$ denotes the trace of a matrix. We often
 \end{definition}
 
 \begin{definition}[Projection]
-    Let $\M$ be an embedded submanifold of a Euclidean space $\mathcal{E}$ equipped with a Euclidean metric $\langle \cdot, \cdot \rangle$. The \emph{orthogonal projection} onto the tangent space $T_x \M$ at a point $x \in \M$ is the linear map $P^{\perp}_x : \mathcal{E} \to T_x \M$ which satisfies the following properties:
+    Let $\M$ be an embedded submanifold of a Euclidean space $\mathcal{E}$ equipped with a Euclidean metric $\langle \cdot, \cdot \rangle$. The \textit{orthogonal projection} onto the tangent space $T_x \M$ at a point $x \in \M$ is the linear map $P^{\perp}_x : \mathcal{E} \to T_x \M$ which satisfies the following properties:
     \begin{enumerate}
         \item \emph{Range}: $\textrm{im}(P^{\perp}_x) = T_x \M$;
         \item \emph{Projector}: $P^{\perp}_x \circ P^{\perp}_x = P^{\perp}_x$;
@@ -140,20 +139,20 @@ where $\textrm{Tr}(M) = \sum_{i} M_{ii}$ denotes the trace of a matrix. We often
     
 \end{definition}
 
-\begin{proposition}\label{prop:riem_grad}
+\begin{lemma}\label{prop:riem_grad}
     Let $\M$ be an embedded submanifold of a Euclidean space $\mathcal{E}$ equipped with a Euclidean metric $\langle \cdot, \cdot \rangle$. For a smooth function $f : \M \to \R$, the Riemannian gradient at a point $x \in \M$ is given by:
     \[
         \textrm{grad}f(x) = P^{\perp}_x(\grad{\bar{f}}(x)),
     \]
     where $\bar{f}$ is a smooth extension of $f$ to an open neighborhood of $\M$ in $\mathcal{E}$, and $\grad{\bar{f}}(x)$ is the Euclidean gradient of $\bar{f}$ at $x$.
-\end{proposition}
+\end{lemma}
 
 \subsection{Grassmannians}
-The Grassmannian $\Gr(k,n)$ is the set of all $k$-dimensional subspaces of $\R^n$. It can be endowed with the structure of a smooth \Nref*{def:riem-manifold} of dimension $k(n-k)$. Each point $\mathcal{S} \in \Gr(k,n)$ can be represented by an orthogonal matrix $Y \in \R^{n \times k}$ such that $Y^\top Y = I_k$.
+The Grassmannian $\Gr(k,n)$ is the set of all $k$-dimensional subspaces of $\R^n$. It can be endowed with the structure of a smooth \Nref*{def:riem-manifold} of dimension $k(n-k)$. Each point $\mathcal{S} \in \Gr(k,n)$ can be represented by an orthogonal matrix $Y \in \R^{n \times k}$ such that $Y^\top Y = \I_k$.
 
-The Grassmannian is a quotient manifold of the Stiefel manifold $\St(k,n)$, which is the set of all orthogonal $n \times k$ matrices. The equivalence class of $Y \in \St(k,n)$ is given by $[Y] = \{ Y Q \mid Q \in O(k) \}$, where $O(k)$ is the orthogonal group of $k \times k$ orthogonal matrices. Thus, $\Gr(k,n) \cong \St(k,n) / O(k)$ (refer \cite{boumal2023} for more details).
+The Grassmannian is a quotient manifold of the Stiefel manifold $\St(k,n)$, which is the set of all orthogonal $n \times k$ matrices (embedded submanifold of $\R^{n \times k}$). The equivalence class of $Y \in \St(k,n)$ is given by $[Y] = \{ Y Q \mid Q \in O(k) \}$, where $O(k)$ is the orthogonal group of $k \times k$ orthogonal matrices. Thus, $\Gr(k,n) \cong \St(k,n) / O(k)$ (refer~\cite{boumal2023} for more details).
 
-The projection operator onto the subspace $\mathcal{S}$ is given by $P_{\mathcal{S}} = Y Y^\top$ and the orthogonal complement projection is $P_{\mathcal{S}}^{\perp} = I_n - Y Y^\top$.
+The projection operator onto the subspace $\mathcal{S}$ is given by $P_{\mathcal{S}} = Y Y^\top$ and the orthogonal complement projection is $P_{\mathcal{S}}^{\perp} = \I_n - Y Y^\top$.
 
 \begin{figure}[h]
     \centering
@@ -190,7 +189,7 @@ The projection operator onto the subspace $\mathcal{S}$ is given by $P_{\mathcal
 \end{figure}
 
 \begin{definition}[Chordal Distance]\label{defn:chordal}
-    The chordal distance between two subspaces $\mathcal{S}_1, \mathcal{S}_2 \in \Gr(k,n)$ is defined as:
+    The \textit{chordal distance} between two subspaces $\mathcal{S}_1, \mathcal{S}_2 \in \Gr(k,n)$ is defined as:
     \[
         d_{2}(\mathcal{S}_1, \mathcal{S}_2) = \sqrt{\mathrm{Tr}\left(P_{\mathcal{S}_1}^\perp P_{\mathcal{S}_2}\right)} = \frac{1}{\sqrt{2}}\lVert P_{\mathcal{S}_1} - P_{\mathcal{S}_2} \rVert_{\mathrm{F}} = \sqrt{\sum_{i=1}^{k} \sin^2(\theta_i)},
     \]
@@ -199,7 +198,7 @@ The projection operator onto the subspace $\mathcal{S}$ is given by $P_{\mathcal
 \end{definition}
 
 \begin{definition}[Gap Distance]
-    The gap distance between two subspaces $\mathcal{S}_1, \mathcal{S}_2 \in \Gr(k,n)$ is defined as:
+    The \textit{gap distance} between two subspaces $\mathcal{S}_1, \mathcal{S}_2 \in \Gr(k,n)$ is defined as:
     \[
         d_{\infty}(\mathcal{S}_1, \mathcal{S}_2) = \lVert P_{\mathcal{S}_1} - P_{\mathcal{S}_2} \rVert_{2} = \sin(\theta_k),
     \]
@@ -226,7 +225,7 @@ The projection operator onto the subspace $\mathcal{S}$ is given by $P_{\mathcal
         \end{cases}
     \end{equation}
 \end{definition}
-where $f$ and the functions $c_i$ are all smooth, real-valued functions on a subset of $\R^n$, and $\mathcal{I}$ and $\mathcal{E}$ are two finite sets of indices. We call $f$ the \emph{objective function}, while $c_i$, $i \in \mathcal{E}$ are the equality constraints and $c_i$ , $i \in \mathcal{I}$ are the inequality constraints. We define the \emph{feasible set} $\Omega$ to be the set of points $x$ that satisfy the constraints; that is,
+where $f$ and the functions $c_i$ are all smooth, real-valued functions on a subset of $\R^n$, and $\mathcal{I}$ and $\mathcal{E}$ are two finite sets of indices. We call $f$ the \textit{objective function}, while $c_i$, $i \in \mathcal{E}$ are the equality constraints and $c_i$, $i \in \mathcal{I}$ are the inequality constraints. We define the \textit{feasible set} $\Omega$ to be the set of points $x$ that satisfy the constraints; that is,
 \[
     \Omega = \{x \mid c_i(x) = 0, i \in \mathcal{E}; c_i(x) \leq 0, i \in \mathcal{I} \},
 \]
@@ -235,14 +234,14 @@ so that we rewrite the problem more compactly as,
     \min_{x \in \Omega} f(x).
 \]
 \begin{definition}[Lagrangian function]
-    The \emph{Lagrangian} function for \eqref{eq:cons-opt} is defined as:
+    The \textit{Lagrangian} function for~\eqref{eq:cons-opt} is defined as:
     \[
         \mathcal{L}(x, \lambda) = f(x) + \sum_{i \in \mathcal{I} \cap \mathcal{E}} \lambda_i c_i(x) 
     \]
 \end{definition}
 \begin{definition}[First-Order Optimality Conditions]
-    Let $x^*$ be a local solution of \eqref{eq:cons-opt}, that the functions $f$ and $c_i$ in \eqref{eq:cons-opt} are continuously differentiable. Then there exists a Lagrange multiplier $\lambda^*$, with components $\lambda_i^*, i \in \mathcal{E} \cap \mathcal{I}$, such that the following conditions are satisfied at $(x^*, \lambda^*)$,
-    \begin{subequations} \label{eq:kkt}
+    Let $x^*$ be a local solution of~\eqref{eq:cons-opt}, that the functions $f$ and $c_i$ in~\eqref{eq:cons-opt} are continuously differentiable. Then there exists a Lagrange multiplier $\lambda^*$, with components $\lambda_i^*, i \in \mathcal{E} \cap \mathcal{I}$, such that the following conditions are satisfied at $(x^*, \lambda^*)$,
+    \begin{subequations}~\label{eq:kkt}
         \begin{alignat}{4}
             \nabla_x \mathcal{L}(x^*,\lambda^*) &= 0,  \\
             c_i(x^*) &= 0, \quad i \in \mathcal{E}, \\
@@ -251,26 +250,24 @@ so that we rewrite the problem more compactly as,
             \lambda_i^* c_i(x^*) &= 0, \quad i \in \mathcal{E} \cap \mathcal{I}. \label{eq:kkt-comp}
         \end{alignat}
     \end{subequations}
-These conditions \eqref{eq:kkt} are often known as the \emph{KKT (Karush-Kuhn-Tucker) conditions}. The conditions \eqref{eq:kkt-comp} are \emph{complementarity slackness conditions}; they imply that either constraint $i$ is active or $\lambda^*_i = 0$, or possibly both.
+These conditions~\eqref{eq:kkt} are often known as the \emph{KKT (Karush-Kuhn-Tucker) conditions}. The conditions~\eqref{eq:kkt-comp} are \emph{complementarity slackness conditions}; they imply that either constraint $i$ is active or $\lambda^*_i = 0$, or possibly both.
 \end{definition}
 
 \begin{definition}[Min-Max Optimization]
-In general, the min-max problems (see \cite{han2023}, \cite{han2024}) on Riemannian manifolds that we focus on, are of the kind
+In general, the min-max problems (see~\cite{han2023},~\cite{han2024}) on Riemannian manifolds that we focus on, are of the kind
 \[
 \min_{x \in \mathcal{M}_x} \max_{y \in \mathcal{M}_y} f(x,y),
 \]
-where $f$ is atleast $\mathcal{C}^2$ and $\M_x,\M_y$ are the Riemannian manifolds containing $x,y$ respectively. Without loss of generality, we assume that minimization takes place first, followed by maximization (cannot be interchanged). These problems are termed \emph{min-max optimization}, whereas the candidate solution points are termed \emph{minimax points}. 
+where $f$ is atleast $\mathcal{C}^2$ and $\M_x,\M_y$ are the Riemannian manifolds containing $x,y$ respectively. Without loss of generality, we assume that minimization takes place first, followed by maximization (cannot be interchanged). These problems are termed \textit{min-max optimization}, whereas the candidate solution points are termed \textit{minimax points}. 
 
 \end{definition}
-\begin{definition}[Global Minimax point]
-\label{def:global-minimax}
+\begin{definition}[Global Minimax point]\label{def:global-minimax}
     Let $\M_x, \M_y$ be two smooth Riemannian manifolds. Consider two subsets $\X, \Y$ such that $\X \times \Y \subseteq \M_x \times \M_y$. Let $f: \X \times \Y \to \R$, be a function such that $(x,y) \mapsto f(x,y)$. The point $(x^*, y^*)$ is called a global minimax point if for any $(x,y) \in \X \times \Y$, it satisfies:
     \[
     f(x^*,y) \leq f(x^*, y^*) \leq \max_{y' \in \Y} f(x, y').
     \]
 \end{definition}
-\begin{definition}[Local Minimax point]
-\label{def:local-minimax}
+\begin{definition}[Local Minimax point]\label{def:local-minimax}
 A point $(x^*, y^*)$ is a local minimax point of $f: \X \times \Y \to \R$ if there exists some $\delta_0 > 0$, and a function $h$ such that $\lim_{\delta \to 0} h(\delta) = 0 \ \forall \ \delta \in (0, \delta_0]$ and for every $(x,y) \in \X \times \Y$ satisfying $d(x,x^*) \leq \delta$ and $d(y,y^*) \leq \delta$ such that
 \[
 f(x^*, y) \leq f(x^*, y^*) \leq \max_{y': d(y,y') \leq h(\delta)} f(x,y').
@@ -278,11 +275,11 @@ f(x^*, y) \leq f(x^*, y^*) \leq \max_{y': d(y,y') \leq h(\delta)} f(x,y').
 \end{definition}
 
 \subsection{Robust Least-Squares}
-Consider the robust least-squares problem,
+Consider the robust least-squares problem:
 \begin{equation}\label{eq:robust-ls}
     \min_{x \in \R^n} \max_{\Sy \in \B^d_{\rho}(\hat{\Sy})} \lVert YY^\top x - b \rVert^2,
 \end{equation}
-where $\B^d_{\rho}(\hat{S}) = \{\Sy \in \Gr(k,n) \mid d(\Sy, \hat{\Sy}) \leq \rho \}$ is a ball on the Grassmannian centered at the subspace $\hat{\Sy}$ with radius $\rho > 0$, and $d(\cdot, \cdot)$ is a distance metric on the Grassmannian. For purposes of this discussion, we consider the chordal distance $d_2(\cdot, \cdot)$~(see \ref{defn:chordal} for definition).
+where $\B^d_{\rho}(\hat{S}) = \{\Sy \in \Gr(k,n) \mid d(\Sy, \hat{\Sy}) \leq \rho \}$ is a ball on the Grassmannian centered at the subspace $\hat{\Sy}$ with radius $\rho > 0$, and $d(\cdot, \cdot)$ is a distance metric on the Grassmannian. For purposes of this discussion, we consider the chordal distance $d_2(\cdot, \cdot)$~(see~\ref{defn:chordal} for definition).
 
 \subsubsection{Convexity}
 The robust least-squares problem in~\eqref{eq:robust-ls} is a non-concave in the inner maximization variable $\Sy$. However, it can be shown that the inner problem has an explicit solution, and hence as long as the outer minimization problem is convex, the overall problem remains tractable.
@@ -317,7 +314,7 @@ The robust least-squares problem in~\eqref{eq:robust-ls} is a non-concave in the
     \[
         \min_{x \in \R^n} \max_{\Sy \in \B^{d_2}_{\rho}(\hat{\Sy})} \mathrm{tr}\left(Y^\top B(x, \lambda) Y \right),
     \]
-    where $B(x, \lambda) = A(x) + \lambda \hat{Y}\hat{Y}^\top$, and $A(x) = (x x^\top - b x^\top - x b^\top)$ for a \emph{KKT} multiplier $\lambda \geq 0$.
+    where $B(x, \lambda) = A(x) + \lambda \hat{Y}\hat{Y}^\top$, $A(x) = (x x^\top - b x^\top - x b^\top)$, and $\lambda \geq 0$ is a \emph{KKT} multiplier.
     \begin{proof}
         Let $f(x,Y) = \lVert YY^\top x - b \rVert^2$ denote the cost function in~\eqref{eq:robust-ls}. The ball constraint can be expressed as $g(Y) = d_2^2(Y, \hat{Y}) - \rho^2 \leq 0$. The Lagrangian function for the inner maximization problem is given by:
         \[
@@ -362,7 +359,7 @@ The robust least-squares problem in~\eqref{eq:robust-ls} is a non-concave in the
         \]
         where $u_i$ is the $i$-th eigenvector of $B$. The optimal subspace is thus given by 
         \[
-            \Sy^* = \mathrm{span}\{u_1, u_2, \ldots, u_k\}.
+            \Sy^* = \mathrm{span}\{u_1, u_2, \ldots, u_k\} = \mathrm{span}\{Y^*\}.
         \]
     \end{proof}
 \end{lemma}
@@ -501,8 +498,7 @@ This also helps in ensuring that the matrix $C = MYY^\top$ is full row-rank, the
         \KwData{Subspace Estimate $\hat{Y} \in \R^{n \times k}$, Vectors $b \in \R^n, z \in \R^d$}
         \Input{Initial guess $x_0 \in \R^n$, time-step $\alpha > 0$, $\lambda_0, \rho, \gamma > 0$, \texttt{tolx}}
         \Output{Optimal subspace $Y^*$, Optimal point $x^*$}
-    \BlankLine
-    \While{true}
+    \BlankLine\While{true}
     {
             $A_i = x_i x_i^\top - x_i b^\top - bx_i^\top$\;
             $Y = \texttt{eigs}(A_i,k)$\;
@@ -524,11 +520,11 @@ This also helps in ensuring that the matrix $C = MYY^\top$ is full row-rank, the
 \caption{Constrained Robust Least-Squares Algorithm}
 \end{algorithm}
 
-\section{Systems Theory}
+\section{Linear Systems Theory}
 In this section, we briefly review some fundamental concepts in linear systems theory. Refer to~\cite{hespanha} for a comprehensive treatment.
 
 \begin{definition}
-[LTI System] \label{def:lti}
+[LTI System]~\label{def:lti}
     A discrete-time linear time-invariant (LTI) system is described by the state-space equations:
     \[
         x(t+1) = A x(t) + B u(t), \quad y(t) = C x(t) + D u(t),
@@ -548,12 +544,12 @@ In this section, we briefly review some fundamental concepts in linear systems t
 
 \begin{definition}
 [Minimal Realization]
-    A realization of an \Nref*{def:lti} is said to be minimal if it has the smallest possible state dimension among all realizations that produce the same input-output behavior. A minimal realization is both controllable and observable.
+    A realization of an \Nref*{def:lti} is said to be minimal if it has the smallest possible state dimension among all realizations that produce the same input-output behavior.
 \end{definition}
 
 \begin{definition}
 [Hankel Matrix]
-    The Hankel matrix of an \Nref*{def:lti} is a structured matrix that captures the input-output behavior of the system. For a system with impulse response coefficients $\{h_0, h_1, h_2, \ldots\}$, the Hankel matrix $\mathcal{H}$ is defined as:
+    The Hankel matrix of an \Nref*{def:lti} is a structured matrix that captures the input-output behavior of the system. For a system with impulse response coefficients $\{h_1, h_2, h_3, \ldots\}$, the Hankel matrix $\mathcal{H}$ is defined as:
     \[
         \mathcal{H} = \begin{bmatrix}
         h_1 & h_2 & h_3 & \cdots \\
@@ -564,12 +560,17 @@ In this section, we briefly review some fundamental concepts in linear systems t
     \]
 \end{definition}
 
-\begin{definition}[Kalman Rank Condition]
+\begin{definition}[Kalman Rank Condition]\label{def:kalman-rank}
     An \Nref*{def:lti} is controllable if and only if the controllability matrix 
     \[
         \mathcal{C} = [B, AB, A^2B, \ldots, A^{n-1}B]
     \]
-    has full row rank. Similarly, the system is observable if and only if the observability matrix
+    satisfies the rank condition:
+    \[
+        \mathrm{rank}(\mathcal{C}) = n.
+    \]
+    
+    Similarly, the system is observable if and only if the observability matrix
     \[
         \mathcal{O} = \begin{bmatrix}
         C \\
@@ -579,5 +580,8 @@ In this section, we briefly review some fundamental concepts in linear systems t
         CA^{n-1}
         \end{bmatrix}
     \]
-    has full column rank.
+    satisfies the rank condition:
+    \[
+        \mathrm{rank}(\mathcal{O}) = n.
+    \]
 \end{definition}

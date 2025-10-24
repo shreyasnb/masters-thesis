@@ -1,5 +1,4 @@
-\chapter{Data-Driven Control}\label{ch:DDC}
-
+\chapter{Data-Driven Control}~\label{ch:DDC}
 Data-driven control is an emerging paradigm in control theory that focuses on designing controllers directly from data, without relying on explicit parametric models of the system dynamics. This chapter explores the principles and methodologies of predictive control, both in the context of known system models and in scenarios where only data is available. We focus specifically on finite-time linear quadratic tracking problems, and highlight the advantages of the behavioral framework in enabling data-driven control strategies.
 
 \section{Linear Quadratic Tracking}
@@ -15,7 +14,7 @@ where $A \in \R^{n \times n}, B \in \R^{n \times m}, C \in \R^{p \times n}, D \i
 In the case where the system is \emph{known}, i.e., the matrices $A, B, C, D$ are given, the finite-horizon LQT problem is approached using \emph{Model Predictive Control}.
 
 \subsection{Model Predictive Control}\label{sec:mpc}
-Model Predictive Control (MPC) is an advanced control strategy that utilizes an explicit model of the system to predict future behavior and optimize control actions over a finite horizon~[\cite{camacho2007}, \cite{ferramosca2009}]. Consider the optimization problem:
+Model Predictive Control (MPC) is an advanced control strategy that utilizes an explicit model of the system to predict future behavior and optimize control actions over a finite horizon~[\cite{camacho2007},~\cite{ferramosca2009}]. Consider the optimization problem:
 \begin{equation}\label{eq:mpc}
     \begin{aligned}
         & \underset{u,x,y}{\text{minimize}} && \sum_{k=0}^{N-1} \left( \lVert y_k - r_{t+k} \rVert_Q^2 + \lVert u_k \rVert_R^2 \right) \\
@@ -23,7 +22,7 @@ Model Predictive Control (MPC) is an advanced control strategy that utilizes an 
         & && y_k = C x_k + D u_k, \\
         & && x_0 = \hat{x}(t), \\
         & && u_k \in \mathcal{U}, \forall k \in \{0, \ldots, N-1\} \\
-        & && y_k \in \mathcal{Y}, \forall k \in \{0, \ldots, N-1\}.
+        & && y_k \in \mathcal{Y}, \forall k \in \{0, \ldots, N-1\},
     \end{aligned}
 \end{equation}
 where $N \in \Z_{> 0}$ is the time horizon, $u = (u_0, u_1, \ldots, u_{N-1}), x = (x_0, x_1, \ldots, x_N)$, $y = (y_0, y_1, \ldots, y_{N-1})$ are the decision variables, and $r_{t+k}$ is the desired reference at time $t+k$, where $t \in \Z_{>0}$ is the time at which the optimization is solved. The matrices $Q \succeq 0$ and $R \succ 0$ are weighting matrices for the output tracking error and control effort, respectively. The initial state $\hat{x}(t)$ is typically obtained from state estimation or measurement at time $t$.
@@ -112,8 +111,7 @@ The classical MPC algorithm operates in a \emph{receding horizon} fashion. The a
     \draw[<->, gray!80] (\Tini, -0.8) to (8,-0.8) node[below left] {\textcolor{gray}{prediction horizon}};
 
     \end{tikzpicture}
-    \caption{Classical MPC in a receding horizon fashion. At each time step, an optimization problem is solved over a future horizon using the current state estimate and past data. The first $s$ control inputs are applied, and the horizon recedes forward in time.}
-        \label{fig:mpc_schematic}
+    \caption{Classical MPC in a receding horizon fashion. At each time step, an optimization problem is solved over a future horizon using the current state estimate and past data. The first $s$ control inputs are applied, and the horizon recedes forward in time.}~\label{fig:mpc_schematic}
 \end{figure}
 
 \newpage
@@ -125,19 +123,19 @@ On a finite-horizon, the problem can be formulated as follows. Given,
 \begin{itemize}
     \item an LTI system $\Sigma = (\T, \W, \Be)$, with $\W = \R^q$, and $\T = [1,N]$,
     \item an initial trajectory $w_{\textrm{ini}} \in \Be |_{\T_{\textrm{past}}}$ with $\T_{\textrm{past}} = [1, T_{\textrm{ini}}]$,
-    \item a reference trajectory $w_{\textrm{ref}} \in (\R^q)^{\T_{\textrm{fut}}}$, with $\T_{\textrm{fut}} = [T_{\textrm{ini}}+1, N]$,
+    \item a reference trajectory $w_{\textrm{ref}} \in {(\R^q)}^{\T_{\textrm{fut}}}$, with $\T_{\textrm{fut}} = [T_{\textrm{ini}}+1, N]$,
     \item a symmetric positive semi-definite weighting matrix $\Phi \in \R^{q \times q}$,
 \end{itemize}
 the linear quadratic tracking problem is to find a trajectory $w_{\textrm{fut}} \in \Be |_{\T_{\textrm{fut}}}$ that solves the optimization problem
 \begin{equation}\label{eq:lqt_behavioral}
     \begin{aligned}
-        \underset{w_{\textrm{fut}} \in (\R^q)^{\T_{\textrm{fut}}}}{\text{minimize}} && \sum_{k=T_{\textrm{ini}}+1}^{N} \lVert w_{\textrm{fut}}(k) - w_{\textrm{ref}}(k) \rVert_{I \otimes \Phi}^2 \\
+        \underset{w_{\textrm{fut}} \in {(\R^q)}^{\T_{\textrm{fut}}}}{\text{minimize}} && \sum_{k=T_{\textrm{ini}}+1}^{N} \lVert w_{\textrm{fut}}(k) - w_{\textrm{ref}}(k) \rVert_{I \otimes \Phi}^2 \\
        && \text{subject to} \quad w = \begin{bmatrix} w_{\textrm{ini}} \\ w_{\textrm{fut}} \end{bmatrix} \in \Be.
     \end{aligned}
 \end{equation}
 
 \begin{Note}
-    The reference trajectory $w_{\textrm{ref}}$ need not be in the behavior $\Be$. For instance, step references or trajectories with sudden changes can be used, even if they are not achievable by the system.
+    The reference trajectory $w_{\textrm{ref}}$ need not be in the behavior $\Be$. For instance, step inputs with sudden changes can be used as reference trajectories, even if they are not achievable by the system.
 \end{Note}
 
 If a parametric model of the system behavior is available---for example a state-space representation---then the optimization problem~\eqref{eq:lqt_behavioral} is equivalent~\cite{jeremy2019} to the classical MPC problem~\eqref{eq:mpc} described in Section~\ref{sec:mpc}. However, in the absence of such a model, we can utilize the behavioral framework to reformulate the problem in a data-driven manner.
@@ -145,8 +143,8 @@ If a parametric model of the system behavior is available---for example a state-
 \section{Robust Least-Squares for Data-Driven Control}
 Predictive control methods like DeePC~\cite{jeremy2019} rely on the availability of persistently exciting input-output data to construct Hankel matrices that capture the system's behavior. However, in practical scenarios, the collected data may be corrupted by noise, outliers, or other uncertainties, which can adversely affect the performance of data-driven controllers. To address these challenges, robust least-squares techniques can be employed to enhance the resilience of data-driven predictive control methods against data imperfections.
 
-\subsection{Geometrically Robust Least-Squares}
-We consider the geometric approach to robust least-squares problem. Building up from~\eqref{eq:lqt_behavioral}, we formulate:
+\subsection{Geometric Approach to Robust Least-Squares}
+We consider a geometric approach to robust least-squares problem in the context of linear quadratic tracking. Building up from~\eqref{eq:lqt_behavioral}, we formulate:
 \begin{equation}\label{eq:robust_lqt}
     \begin{split}
     \min_{w \in \R^n} & \max_{\Sy \in \B_{\rho}(\hat{\Sy})} \lVert w - w_{\textrm{ref}} \rVert^2 \\
@@ -163,11 +161,11 @@ Here,
 \end{itemize}
 
 \subsection{Constraints}
-The constraints in~\eqref{eq:robust_lqt} are discussed here.
+The constraints in~\eqref{eq:robust_lqt} are briefly discussed here.
 
 \begin{table}[h]
     \centering
-    \begin{tabular}{p{0.46\linewidth} p{0.46\linewidth}}
+    \begin{tabular}{p{0.46\linewidth}|p{0.46\linewidth}}
         % \hline
         % anchor labels so references like \eqref{const1}/\eqref{const2} work
         % \refstepcounter{equation}\label{const1} (\theequation) & \refstepcounter{equation}\label{const2} (\theequation) \\
@@ -183,11 +181,10 @@ The constraints in~\eqref{eq:robust_lqt} are discussed here.
         Substituting the expression for $w$ into this constraint gives
         \begin{equation}
             M YY^\top x = w_{\textrm{ini}}.
-        \end{equation} \\
-        \hline
+        \end{equation} 
+        % \hline
     \end{tabular}
-    \caption{Reformulation of constraints in~\eqref{eq:robust_lqt}.}
-    \label{tab:constraints_reformulation}
+    \caption{Reformulation of constraints in~\eqref{eq:robust_lqt}.}~\label{tab:constraints_reformulation}
 \end{table}
 
 \subsection{Reformulated Problem}
@@ -211,8 +208,7 @@ Thus, the algorithm for data-driven predictive control using (regularized) robus
         \KwData{Subspace estimate $\hat{\Sy} \in \Gr(k,n)$, System simulator $(A,B,C,D)$}
         \Input{Initial trajectory $z = w_{\textrm{ini}} \in {(\R^q)}^{\T_{\textrm{ini}}}$, Reference trajectory $r \in {(\R^p)}^{\T}$}
         \Output{Optimal trajectories $w^* \in {(\R^q)}^{\T}$}
-    \BlankLine
-    \While{$t \in [1,T]$} {
+    \BlankLine\While{$t \in [1,T]$} {
         Update $z = w_{\textrm{ini}} = [u_{\textrm{past}}^\top, y_{\textrm{past}}^\top]^\top$ from past data.\;
         Update $w_{\textrm{ref,f}} = [0^\top, r^\top]^\top$ from reference data.\;
         Define $b = [z^\top, w_{\textrm{ref,f}}^\top]^\top$.\;
@@ -250,7 +246,7 @@ Consider a simple double-integrator system $\ddot{x}(t) = \dfrac{F(t)}{m}$, give
 where $x_k = x(t_k), v_k = \dot{x}(t_k)$ are the states, $h = t_{k+1} - t_k$ is the simulation time-step, and $\eta_k \sim \mathcal{N}(0, \sigma^2)$ is measurement noise. The system parameters are set to $m = 1$ kg, $h = 0.5$ s. The control objective is to track a reference trajectory $r = 1$ m over a horizon of $N$ time steps, with a random initial condition $[x_0, v_0]$.
 
 \subsubsection{Offline System Identification}
-To identify the behavior $\Be$ of the double-integrator system, we collect input-output data by simulating the system with random control inputs $u_k$ drawn from a uniform distribution over $[-1, 1]$ N. The output measurements $y_k$ are corrupted with Gaussian noise with standard deviation $\sigma = 0.1$ m. A total of $T = 115$ time steps of data is collected, and a persistently exciting input sequence of order $L = T_{\textrm{ini}}+N = 35$ is ensured. Using this data, we construct the Hankel matrix and extract the subspace estimate $\hat{\Sy}$ using the methods outlined in Chapter~\ref{ch:Behaviors}. Thus, we summarize the following parameters from system identification of the double-integrator system in Table~\ref{tab:sysid_params_double_integrator}.
+To identify the behavior $\Be$ of the double-integrator system, we collect input-output data by simulating the system with random control inputs $u_k$ drawn from a uniform distribution over $[-1, 1]$ N. The output measurements $y_k$ are corrupted with Gaussian noise. A total of $T = 115$ time steps of data is collected, and a persistently exciting input sequence of order $L = T_{\textrm{ini}}+N = 35$ is ensured. Using this data, we construct the Hankel matrix and extract the subspace estimate $\hat{\Sy}$ using the methods outlined in Chapter~\ref{ch:Behaviors}. Thus, we summarize the following parameters from system identification of the double-integrator system in Table~\ref{tab:sysid_params_double_integrator}.
 \begin{table}[h]
     \centering
     \begin{tabular}{l|c}
@@ -268,8 +264,7 @@ To identify the behavior $\Be$ of the double-integrator system, we collect input
         Subspace dimension $\dim(\hat{Y})$ & 70 $\times$ 37 \\
         \hline
     \end{tabular}
-    \caption{System identification parameters for double-integrator system.}
-    \label{tab:sysid_params_double_integrator}
+    \caption{System identification parameters for double-integrator system.}~\label{tab:sysid_params_double_integrator}
 \end{table}
 
 \subsubsection{Online Predictive Control}
@@ -291,16 +286,13 @@ Figures~\ref{fig:ddpc_noiseless} and~\ref{fig:conv_noiseless} illustrate the sys
     \caption{Simulation parameters/results for $\sigma=0$ (no noise)}
     \label{tab:ddpc_params_double_integrator}
 \end{table}
-
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\textwidth]{figures/closed_loop_noiseless_gamma_5_rho_0p1.png}
-    \caption{System simulations for $\sigma = 0$ (no noise).}
-    \label{fig:ddpc_noiseless}
+    \includegraphics[trim={0cm 1cm 0cm 0cm},clip,width=\textwidth]{figures/closed_loop_noiseless_gamma_5_rho_0p1.png}
+    \caption{System simulations for $\sigma = 0$ (no noise).}\label{fig:ddpc_noiseless}
 \end{figure}
 
 \textbf{Observations}:
-
 \begin{itemize}
     \item Initially, $\lambda^*$ is large, indicating a significant deviation from the reference trajectory. As the optimization progresses, $Y^*$ aligns better with the true behavior $\hat{Y}$, leading to a decrease in $\lambda^*$.
     \item The optimization algorithm converges within $\sim 30$ iterations per time step on average, demonstrating computational efficiency suitable for real-time applications.
@@ -316,10 +308,11 @@ Figures~\ref{fig:ddpc_noiseless} and~\ref{fig:conv_noiseless} illustrate the sys
 Next, we consider the case with measurement noise ($\sigma = 0.1$). Figures~\ref{fig:ddpc_noisy1} and~\ref{fig:conv_noisy1} illustrate the system simulations and optimization convergence for this scenario. The results show that the robust least-squares approach effectively mitigates the impact of noise, achieving satisfactory tracking performance. The parameters/results for the noisy simulations are summarized in Table~\ref{tab:ddpc_params_double_integrator_noisy1}.
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/closed_loop_snr_0p1_gamma_4_rho_1.png}
+    \includegraphics[trim={0cm 1cm 0cm 0cm},clip,width=0.9\textwidth]{figures/closed_loop_snr_0p1_gamma_4_rho_1.png}
     \caption{System simulations for $\sigma = 0.1$ (with noise).}
     \label{fig:ddpc_noisy1}
 \end{figure}
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{figures/cost_gradnorm_snr_0p1_gamma_4_rho_1.png}
