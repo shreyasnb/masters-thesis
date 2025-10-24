@@ -170,13 +170,13 @@ The projection operator onto the subspace $\mathcal{S}$ is given by $P_{\mathcal
 % \draw[->] (0,0,0) -- (0,0,4) node[left] {$x_3$};
 
 % Draw vector x
-\draw[->, thick, blue] (0,0,0) -- (2,1,3) node[midway, above left] {$\mathbf{x}$};
+\draw[->, thick, blue] (0,0,0) -- (2,1,3) node[midway, above left] {$x$};
 
 % Draw projection w = P_S x
-\draw[->, thick, red] (0,0,0) -- (2,1,0) node[midway, below right ] {$\mathbf{w} = P_{\mathcal{S}_{\hat{\mathbf{y}}}}\mathbf{x}$};
+\draw[->, thick, red] (0,0,0) -- (2,1,0) node[midway, below right ] {$w = P_{\hat{\mathcal{S}}}x$};
 
 % Draw perpendicular from x to w
-\draw[dashed, purple] (2,1,3) -- (2,1,0) node[midway, right] {$\mathbf{x} - \mathbf{w} = P_{\mathcal{S}_{\hat{y}}}^\perp x $};
+\draw[dashed, purple] (2,1,3) -- (2,1,0) node[midway, right] {$x - w = P_{\hat{\mathcal{S}}}^\perp x$};
 
 % Draw right angle indicator at w
 \draw[thick, purple] (2,1,0.15) -- (1.85,1,0.12);
@@ -186,7 +186,7 @@ The projection operator onto the subspace $\mathcal{S}$ is given by $P_{\mathcal
 % \node at (0,0,0) [below left] {$\mathbf{0}$};
 
 \end{tikzpicture}
-\caption{Depiction of the orthogonal projection of a vector onto a subspace $\mathcal{S}_{\hat{\mathbf{y}}}$.}
+\caption{Depiction of the orthogonal projection of a vector onto a subspace $\hat{\mathcal{S}}$.}
 \end{figure}
 
 \begin{definition}[Chordal Distance]\label{defn:chordal}
